@@ -1,11 +1,5 @@
-import React, { useContext } from "react";
-import { useState } from "react";
-import { Deck } from "./game";
+import { useContext } from "react";
 import { GameContext } from "../App";
-
-interface Props {
-  deck: Deck;
-}
 
 export function Drawpile() {
   const { currentGame, setCurrentGame } = useContext(GameContext);

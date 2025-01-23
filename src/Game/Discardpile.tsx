@@ -1,11 +1,5 @@
-import React, { useContext } from "react";
-import { useState } from "react";
-import { Card } from "./game";
+import { useContext } from "react";
 import { GameContext } from "../App";
-
-interface Props {
-  discardPile?: Card[];
-}
 
 export function Discardpile() {
   const { currentGame } = useContext(GameContext);

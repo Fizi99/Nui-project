@@ -1,6 +1,4 @@
 import { createContext, Dispatch, SetStateAction, useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import { Game } from "./Game/game";
 import { Gameboard } from "./Game/Gameboard";
@@ -17,7 +15,7 @@ const GameContext = createContext<GameContextType>({
 export { GameContext };
 
 export default function App() {
-  const [count, setCount] = useState(0);
+  //const [count, setCount] = useState(0);
   const [currentGame, setCurrentGame] = useState<Game | null>(
     new Game(["player 1", "player 2"])
   );

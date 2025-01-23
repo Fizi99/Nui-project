@@ -122,7 +122,7 @@ export class Game {
     }
   }*/
 
-  playTurn(cardIndex: number, newColor?: Color) {
+  playTurn(cardIndex: number) {
 
     if(this.winner !== null){
       return;

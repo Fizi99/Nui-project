@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { Discardpile } from "./Discardpile";
 import { Drawpile } from "./Drawpile";
 import { Playerhand } from "./Playerhand";
@@ -16,9 +16,10 @@ export function Gameboard() {
           <Drawpile></Drawpile>
         </li>
         {currentGame
-          ? currentGame.players.map((player, index) => (
-              <Playerhand index={index}></Playerhand>
-            ))
+          ? currentGame.players.map((player, index) => {
+              console.log(player);
+              return <Playerhand index={index}></Playerhand>;
+            })
           : []}
       </ul>
     </div>
