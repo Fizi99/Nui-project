@@ -1,14 +1,15 @@
-import { useContext } from "react";
-import { GameContext } from "../App";
+import { useGameEngine } from "../hooks/useGameEngine";
+// import { GameContext } from "../App";
 
 export function Discardpile() {
-  const { currentGame } = useContext(GameContext);
+  // const { currentGame } = useContext(GameContext);
+  const { game } = useGameEngine();
   return (
     <div
       style={{
         width: "5em",
-        backgroundColor: currentGame
-          ? currentGame.discardPile[currentGame.discardPile.length - 1].color
+        backgroundColor: game
+          ? game.discardPile[game.discardPile.length - 1].color
           : "black",
         padding: "10px",
         borderRadius: "5px",
@@ -16,9 +17,7 @@ export function Discardpile() {
       }}
     >
       <h1>
-        {currentGame
-          ? currentGame.discardPile[currentGame.discardPile.length - 1].value
-          : "no Game"}
+        {game ? game.discardPile[game.discardPile.length - 1].value : "no Game"}
       </h1>
     </div>
   );

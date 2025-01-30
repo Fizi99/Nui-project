@@ -1,11 +1,11 @@
-import { useContext } from "react";
 import { Discardpile } from "./Discardpile";
 import { Drawpile } from "./Drawpile";
-import { Playerhand } from "./Playerhand";
-import { GameContext } from "../App";
+// import { GameContext } from "../App";
 
 export function Gameboard() {
-  const { currentGame } = useContext(GameContext);
+  // const { currentGame } = useContext(GameContext);
+  // const { counter, game, trackingData, counterIncremented, changeName } =
+  //   useGameEngine();
   return (
     <div>
       <ul>
@@ -15,12 +15,12 @@ export function Gameboard() {
         <li>
           <Drawpile></Drawpile>
         </li>
-        {currentGame
-          ? currentGame.players.map((player, index) => {
+        {/* {game
+          ? game.players.map((player: any, index: number) => {
               console.log(player);
               return <Playerhand index={index}></Playerhand>;
             })
-          : []}
+          : []} */}
       </ul>
     </div>
   );

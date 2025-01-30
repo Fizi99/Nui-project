@@ -1,8 +1,9 @@
-import { useContext } from "react";
-import { GameContext } from "../App";
+// import { GameContext } from "../App";
 
 export function Drawpile() {
-  const { currentGame, setCurrentGame } = useContext(GameContext);
+  // const { currentGame, setCurrentGame } = useContext(GameContext);
+  //  const { counter, game, trackingData, counterIncremented, changeName } =
+  //     useGameEngine();
   return (
     <div
       style={{
@@ -13,16 +14,16 @@ export function Drawpile() {
         color: "#fff",
       }}
       onClick={() => {
-        if (currentGame != null) {
-          let newgame = Object.create(currentGame);
-          newgame.players[newgame.currentPlayerIndex].drawCards(
-            newgame.deck,
-            1
-          );
-          if (setCurrentGame) {
-            setCurrentGame(newgame);
-          }
-        }
+        // if (game != null) {
+        //   let newgame = Object.create(game);
+        //   newgame.players[newgame.currentPlayerIndex].drawCards(
+        //     newgame.deck,
+        //     1
+        //   );
+        //   if (setgame) {
+        //     setCurrentGame(newgame);
+        //   }
+        // }
       }}
     >
       <h1>Deck</h1>

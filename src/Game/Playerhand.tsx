@@ -1,13 +1,15 @@
-import { useContext } from "react";
-import { GameContext } from "../App";
+// import { GameContext } from "../App";
 import { UnoCard } from "./UnoCard";
+import { Card } from "./game";
+import { getState } from "playroomkit";
 
 interface Props {
   index: number;
 }
 
 export function Playerhand({ index }: Props) {
-  const { currentGame } = useContext(GameContext);
+  // const { currentGame } = useContext(GameContext);
+  //const { game } = useGameEngine();
   return (
     <div>
       <ul
@@ -17,20 +19,19 @@ export function Playerhand({ index }: Props) {
         }}
       >
         <li>
-          {currentGame
-            ? currentGame.currentPlayerIndex === index
-              ? currentGame.players[index].name + "s turn"
-              : currentGame.players[index].name
-            : "no Game"}
+          {getState("game")
+            ? getState("game").players[index].name + "s hand"
+            : "no game"}
         </li>
-        {currentGame
-          ? currentGame.players[index].hand.map((card, cardIndex) => (
-              <UnoCard
-                card={card}
-                handIndex={cardIndex}
-                player={currentGame.players[index]}
-              ></UnoCard>
-            ))
+        {getState("game")
+          ? getState("game").players[index].hand.map(
+              (card: Card, cardIndex: number) => {
+                console.log(card);
+                return (
+                  <UnoCard handIndex={cardIndex} playerIndex={index}></UnoCard>
+                );
+              }
+            )
           : "no Game"}
       </ul>
     </div>

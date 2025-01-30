@@ -1,19 +1,18 @@
-import { useContext } from "react";
-import { Card, Player } from "./game";
-import { GameContext } from "../App";
+import { getState, setState } from "playroomkit";
+import { Card, Game } from "./game";
+// import { GameContext } from "../App";
 
 interface Props {
-  card?: Card;
-  handIndex?: number;
-  player?: Player;
+  handIndex: number;
+  playerIndex: number;
 }
 
-export function UnoCard({
-  card = new Card("black", "0"),
-  handIndex,
-  player = new Player("empty"),
-}: Props) {
-  const { currentGame, setCurrentGame } = useContext(GameContext);
+export function UnoCard({ handIndex, playerIndex }: Props) {
+  // const { currentGame, setCurrentGame } = useContext(GameContext);
+  // const { counter, game, trackingData, counterIncremented, changeName } =
+  //   useGameEngine();
+
+  const card: Card = getState("game").players[playerIndex].hand[handIndex];
   return (
     <div
       style={{
@@ -28,116 +27,116 @@ export function UnoCard({
     >
       {
         /** wild card color selection */
-        card.value.startsWith("wild") ? (
-          <ul style={{ margin: "0px", padding: "0px", listStyle: "none" }}>
-            <li>{card.value}</li>
-            <li>
-              <div
-                style={{
-                  width: "1em",
-                  height: "1em",
-                  backgroundColor: "red",
-                }}
-                onClick={() => {
-                  if (currentGame != null) {
-                    card.setColor("red");
-                    let newgame = Object.create(currentGame);
-                    if (setCurrentGame) {
-                      setCurrentGame(newgame);
-                    }
-                  }
-                }}
-              ></div>
-            </li>
-            <li>
-              <div
-                style={{
-                  width: "1em",
-                  height: "1em",
-                  backgroundColor: "blue",
-                }}
-                onClick={() => {
-                  if (currentGame != null) {
-                    card.setColor("blue");
-                    let newgame = Object.create(currentGame);
-                    if (setCurrentGame) {
-                      setCurrentGame(newgame);
-                    }
-                  }
-                }}
-              ></div>
-            </li>
-            <li>
-              <div
-                style={{
-                  width: "1em",
-                  height: "1em",
-                  backgroundColor: "yellow",
-                }}
-                onClick={() => {
-                  if (currentGame != null) {
-                    card.setColor("yellow");
-                    let newgame = Object.create(currentGame);
-                    if (setCurrentGame) {
-                      setCurrentGame(newgame);
-                    }
-                  }
-                }}
-              ></div>
-            </li>
-            <li>
-              <div
-                style={{
-                  width: "1em",
-                  height: "1em",
-                  backgroundColor: "green",
-                }}
-                onClick={() => {
-                  if (currentGame != null) {
-                    card.setColor("green");
-                    let newgame = Object.create(currentGame);
-                    if (setCurrentGame) {
-                      setCurrentGame(newgame);
-                    }
-                  }
-                }}
-              ></div>
-            </li>
-            <li
-              style={{ border: "1px solid rgb(27, 189, 238)" }}
-              onClick={() => {
-                if (currentGame != null) {
-                  let newgame = Object.create(currentGame);
-                  newgame.playTurn(handIndex, player);
-                  if (setCurrentGame) {
-                    setCurrentGame(newgame);
-                  }
-                }
-              }}
-            >
-              play Card
-            </li>
-          </ul>
-        ) : (
-          // regular card
-          <ul style={{ margin: "0px", padding: "0px", listStyle: "none" }}>
-            <li>{card.value}</li>
-            <li
-              style={{ border: "1px solid rgb(27, 189, 238)" }}
-              onClick={() => {
-                if (currentGame != null) {
-                  let newgame = Object.create(currentGame);
-                  newgame.playTurn(handIndex, player);
-                  if (setCurrentGame) {
-                    setCurrentGame(newgame);
-                  }
-                }
-              }}
-            >
-              play Card
-            </li>
-          </ul>
-        )
+        // card.value.startsWith("wild") ? (
+        //   <ul style={{ margin: "0px", padding: "0px", listStyle: "none" }}>
+        //     <li>{card.value}</li>
+        //     <li>
+        //       <div
+        //         style={{
+        //           width: "1em",
+        //           height: "1em",
+        //           backgroundColor: "red",
+        //         }}
+        //         onClick={() => {
+        //           if (game != null) {
+        //             card.setColor("red");
+        //             let gameInstance = new Game([""]);
+        //             gameInstance.fromGameState(game);
+
+        //             setState("game", gameInstance.toGameState());
+        //           }
+        //         }}
+        //       ></div>
+        //     </li>
+        //     <li>
+        //       <div
+        //         style={{
+        //           width: "1em",
+        //           height: "1em",
+        //           backgroundColor: "blue",
+        //         }}
+        //         onClick={() => {
+        //           if (game != null) {
+        //             card.setColor("blue");
+        //             let gameInstance = new Game([""]);
+        //             gameInstance.fromGameState(game);
+
+        //             setState("game", gameInstance.toGameState());
+        //           }
+        //         }}
+        //       ></div>
+        //     </li>
+        //     <li>
+        //       <div
+        //         style={{
+        //           width: "1em",
+        //           height: "1em",
+        //           backgroundColor: "yellow",
+        //         }}
+        //         onClick={() => {
+        //           if (game != null) {
+        //             card.setColor("yellow");
+        //             let gameInstance = new Game([""]);
+        //             gameInstance.fromGameState(game);
+
+        //             setState("game", gameInstance.toGameState());
+        //           }
+        //         }}
+        //       ></div>
+        //     </li>
+        //     <li>
+        //       <div
+        //         style={{
+        //           width: "1em",
+        //           height: "1em",
+        //           backgroundColor: "green",
+        //         }}
+        //         onClick={() => {
+        //           if (game != null) {
+        //             card.setColor("green");
+        //             let gameInstance = new Game([""]);
+        //             gameInstance.fromGameState(game);
+
+        //             setState("game", gameInstance.toGameState());
+        //           }
+        //         }}
+        //       ></div>
+        //     </li>
+        //     <li
+        //       style={{ border: "1px solid rgb(27, 189, 238)" }}
+        //       onClick={() => {
+        //         if (game != null) {
+        //           let gameInstance = new Game([""]);
+        //           gameInstance.fromGameState(game);
+        //           gameInstance.playTurn(handIndex, player);
+        //           setState("game", gameInstance.toGameState());
+        //         }
+        //       }}
+        //     >
+        //       play Card
+        //     </li>
+        //   </ul>
+        // ) : (
+        // regular card
+        <ul style={{ margin: "0px", padding: "0px", listStyle: "none" }}>
+          <li>{card.value}</li>
+          <li
+            style={{ border: "1px solid rgb(27, 189, 238)" }}
+            onClick={() => {
+              console.log("clicked");
+              if (getState("game") != null) {
+                let gameInstance = new Game([""]);
+                gameInstance.fromGameState(getState("game"));
+                gameInstance.playCard(playerIndex, handIndex);
+                console.log(gameInstance.toGameState());
+                setState("game", gameInstance.toGameState(), true);
+              }
+            }}
+          >
+            play Card
+          </li>
+        </ul>
+        // )
       }
     </div>
   );
