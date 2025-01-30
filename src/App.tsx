@@ -66,7 +66,6 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import { myPlayer, setState, usePlayersList } from "playroomkit";
 import { useGameEngine } from "./hooks/useGameEngine";
-import { MainDevice } from "./Tracking/mainDevice";
 import { Gameboard } from "./Game/Gameboard";
 import { Playerhand } from "./Game/Playerhand";
 import { Game } from "./Game/game";
@@ -133,7 +132,7 @@ function App() {
       ) : (
         <Playerhand index={index}></Playerhand>
       )}
-      <MainDevice />
+      {/* <MainDevice /> */}
     </>
   );
 }
