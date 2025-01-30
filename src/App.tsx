@@ -64,14 +64,34 @@
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
-import { myPlayer, setState, usePlayersList } from "playroomkit";
+import { myPlayer, onPlayerJoin, setState, usePlayersList } from "playroomkit";
 import { useGameEngine } from "./hooks/useGameEngine";
 import { Gameboard } from "./Game/Gameboard";
 import { Playerhand } from "./Game/Playerhand";
-import { Game } from "./Game/game";
+import { Game, GameState } from "./Game/game";
+import MotionTracker from "./trackingTest/TestStartPage";
 
 function App() {
   const { counter, game, trackingData, counterIncremented } = useGameEngine();
+
+  onPlayerJoin((playerState) => {
+    // PlayerState is this player's multiplayer state along with it's profile.
+    // Probably add a player sprite to the game here.
+    const playersList = usePlayersList(true);
+    const playerNames = [];
+    for (let i = 0; i < playersList.length; i++) {
+      playerNames.push(playersList[i].getProfile().name);
+    }
+
+    const initialGame = new Game(playerNames);
+    const initialGameState: GameState = initialGame.toGameState();
+
+    setState("game", initialGameState);
+
+    playerState.onQuit(() => {
+      // Handle player quitting. Maybe remove player sprite?
+    });
+  });
 
   let index = -1;
 
@@ -132,7 +152,7 @@ function App() {
       ) : (
         <Playerhand index={index}></Playerhand>
       )}
-      {/* <MainDevice /> */}
+      <MotionTracker />
     </>
   );
 }
