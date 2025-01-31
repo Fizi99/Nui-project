@@ -4,25 +4,17 @@ import MotionTracker from "./trackingTest/TestStartPage";
 import { HostStartPage } from "./Game/HostStartPage";
 import { PlayerStartPage } from "./Game/PlayerStartPage";
 import { useGameEngine } from "./hooks/useGameEngine";
-import { getIntersection, Point } from "./trackingTest/Vector";
-import Demo from "./trackingTest/GeoTest";
+import GeoDemo from "./trackingTest/GeoTest";
+import GeoOtherDevices from "./trackingTest/GeoOtherDevices";
 
 function App() {
-  const { game } = useGameEngine();
+  const { game, devices } = useGameEngine();
   const playersList = usePlayersList(true);
   let index = playersList.findIndex(
     (player) => myPlayer().getProfile().name === player.getProfile().name
   );
   console.log(game);
-
-  // Beispiel:
-  const A: Point = { x: 0, y: 0 };
-  const B: Point = { x: 1, y: 0 };
-  const C: Point = { x: 0, y: 0.5 };
-  const D: Point = { x: -3, y: -1 };
-
-  const intersection = getIntersection(A, B, C, D);
-  console.log(intersection); // Sollte { x: 2.5, y: 2.5 } ausgeben
+  console.log(devices);
 
   // find playernames except from host
   let playerNamesWithoutHost = () => {
@@ -50,7 +42,11 @@ function App() {
       )}
 
       <MotionTracker />
-      <Demo></Demo>
+      <GeoDemo index={index}></GeoDemo>
+      {devices.devices.map((device: any, deviceIndex: number) => {
+        console.log(device);
+        return <GeoOtherDevices index={deviceIndex}></GeoOtherDevices>;
+      })}
     </>
   );
 }

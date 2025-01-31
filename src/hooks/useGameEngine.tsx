@@ -1,6 +1,7 @@
 import { useMultiplayerState, usePlayersList } from "playroomkit";
 import React from "react";
 import { Game, GameState } from "../Game/game";
+import { Device, DeviceState } from "../trackingTest/Device";
 
 const GameEngineContext = React.createContext<any>(null);
 
@@ -12,26 +13,26 @@ export const GameEngineProvider = ({ children }: any) => {
   const initialGame = new Game(playerNames);
   const initialGameState: GameState = initialGame.toGameState();
 
+  const initialDevices: Device[] = playersList.map((_player, index) => ({
+    location: { x: 0, y: 0 },
+    index: index,
+  }));
+
+  const initialDeviceState: DeviceState = { devices: initialDevices };
+
   // multiplayer states
-  const [counter, setCounter] = useMultiplayerState("counter", 0);
   const [game] = useMultiplayerState("game", initialGameState);
-  const counterIncremented = () => {
-    console.log("counter before : " + counter);
-    let countIncrementer = counter + 1;
-    setCounter(countIncrementer, true);
-    console.log("counter after : " + counter);
-  };
+  const [devices] = useMultiplayerState("devices", initialDeviceState);
 
   const gameState = {
-    counter,
     game,
+    devices,
   };
 
   return (
     <GameEngineContext.Provider
       value={{
         ...gameState,
-        counterIncremented,
       }}
     >
       {children}
