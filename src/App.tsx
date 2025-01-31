@@ -1,6 +1,6 @@
 import "./App.css";
 import { myPlayer, usePlayersList } from "playroomkit";
-import MotionTracker from "./trackingTest/TestStartPage";
+import Accelerometer from "./trackingTest/TestStartPage";
 import { HostStartPage } from "./Game/HostStartPage";
 import { PlayerStartPage } from "./Game/PlayerStartPage";
 import { useGameEngine } from "./hooks/useGameEngine";
