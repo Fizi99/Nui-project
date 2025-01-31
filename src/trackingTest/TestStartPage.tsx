@@ -8,7 +8,7 @@ interface MotionData {
 }
 
 const ACCELERATION_THRESHOLD = 0.1;
-const FRICTION = 0.95;
+//const FRICTION = 0.95;
 
 const MotionTracker: React.FC = () => {
   const [motion, setMotion] = useState<MotionData>({
@@ -72,9 +72,9 @@ const MotionTracker: React.FC = () => {
         Math.abs(z as number) > ACCELERATION_THRESHOLD ? accZTemp : 0;
 
       if (Math.abs(accX) > 0 || Math.abs(accY) > 0 || Math.abs(accZ) > 0) {
-        const velX = (prev.velocity.x + (accX as number) * dt) * FRICTION;
-        const velY = (prev.velocity.y + (accY as number) * dt) * FRICTION;
-        const velZ = (prev.velocity.z + (accZ as number) * dt) * FRICTION;
+        const velX = prev.velocity.x + (accX as number) * dt;
+        const velY = prev.velocity.y + (accY as number) * dt;
+        const velZ = prev.velocity.z + (accZ as number) * dt;
 
         const posX = prev.position.x + velX * dt;
         const posY = prev.position.y + velY * dt;
