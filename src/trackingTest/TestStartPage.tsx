@@ -6,7 +6,6 @@ interface MotionData {
   velocity: { x: number; y: number; z: number };
   timestamp: number | null;
   interval: number;
-  interval: number;
 }
 
 const ACCELERATION_THRESHOLD = 0.1;
@@ -19,7 +18,6 @@ const MotionTracker: React.FC = () => {
     position: { x: 0, y: 0, z: 0 },
     velocity: { x: 0, y: 0, z: 0 },
     timestamp: null,
-    interval: 0,
     interval: 0,
   });
   const [isTracking, setIsTracking] = useState(false);
@@ -60,7 +58,6 @@ const MotionTracker: React.FC = () => {
     const { x = 0, y = 0, z = 0 } = event.acceleration;
     const timestamp = event.timeStamp;
     const interval = event.interval;
-    const interval = event.interval;
 
     setMotion((prev: any) => {
       if (!prev.timestamp) {
@@ -77,20 +74,7 @@ const MotionTracker: React.FC = () => {
         Math.abs(y as number) > ACCELERATION_THRESHOLD ? accYTemp : 0;
       const accZ =
         Math.abs(z as number) > ACCELERATION_THRESHOLD ? accZTemp : 0;
-      const accXTemp = x as number;
-      const accYTemp = y as number;
-      const accZTemp = z as number;
-      const accX =
-        Math.abs(x as number) > ACCELERATION_THRESHOLD ? accXTemp : 0;
-      const accY =
-        Math.abs(y as number) > ACCELERATION_THRESHOLD ? accYTemp : 0;
-      const accZ =
-        Math.abs(z as number) > ACCELERATION_THRESHOLD ? accZTemp : 0;
 
-      if (Math.abs(accX) > 0 || Math.abs(accY) > 0 || Math.abs(accZ) > 0) {
-        const velX = prev.velocity.x + (accXTemp as number) * dt;
-        const velY = prev.velocity.y + (accYTemp as number) * dt;
-        const velZ = prev.velocity.z + (accZTemp as number) * dt;
       if (Math.abs(accX) > 0 || Math.abs(accY) > 0 || Math.abs(accZ) > 0) {
         const velX = prev.velocity.x + (accXTemp as number) * dt;
         const velY = prev.velocity.y + (accYTemp as number) * dt;
@@ -154,7 +138,6 @@ const MotionTracker: React.FC = () => {
       velocity: { x: 0, y: 0, z: 0 },
       timestamp: null,
       interval: 0,
-      interval: 0,
     });
   };
 
@@ -197,28 +180,9 @@ const MotionTracker: React.FC = () => {
         <p>timestamp: {motion.timestamp ? motion.timestamp.toFixed(4) : 0}</p>
         <p>interval: {motion.interval.toFixed(4)}</p>
       </div>
-      <div className="mt-4 p-4 border rounded">
-        <h3 className="text-lg font-bold">timestamp + interval</h3>
-        <p>timestamp: {motion.timestamp ? motion.timestamp.toFixed(4) : 0}</p>
-        <p>interval: {motion.interval.toFixed(4)}</p>
-      </div>
+
       <div className="mt-4 p-4 border rounded">
         <h3 className="text-lg font-bold">Position Data (meters)</h3>
-        <p>X: {motion.position.x.toFixed(4)}</p>
-        <p>Y: {motion.position.y.toFixed(4)}</p>
-        <p>Z: {motion.position.z.toFixed(4)}</p>
-      </div>
-      <div className="mt-4 p-4 border rounded">
-        <h3 className="text-lg font-bold">acceleration Data (meters)</h3>
-        <p>X: {motion.acceleration.x.toFixed(4)}</p>
-        <p>Y: {motion.acceleration.y.toFixed(4)}</p>
-        <p>Z: {motion.acceleration.z.toFixed(4)}</p>
-      </div>
-      <div className="mt-4 p-4 border rounded">
-        <h3 className="text-lg font-bold">velocity Data (meters)</h3>
-        <p>X: {motion.velocity.x.toFixed(4)}</p>
-        <p>Y: {motion.velocity.y.toFixed(4)}</p>
-        <p>Z: {motion.velocity.z.toFixed(4)}</p>
         <p>X: {motion.position.x.toFixed(4)}</p>
         <p>Y: {motion.position.y.toFixed(4)}</p>
         <p>Z: {motion.position.z.toFixed(4)}</p>
