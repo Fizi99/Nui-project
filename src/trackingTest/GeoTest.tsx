@@ -62,6 +62,7 @@ export default function GeoDemo({ index: index }: Props) {
   } | null>(null);
 
   const [, setTime] = useState(new Date());
+  const [counter, setCounter] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -88,6 +89,7 @@ export default function GeoDemo({ index: index }: Props) {
             };
             let deviceState = { devices: devices };
             setState("devices", deviceState, true);
+            setCounter(counter + 1);
           } else {
             console.log("cant get state");
           }
@@ -113,6 +115,7 @@ export default function GeoDemo({ index: index }: Props) {
     };
     let deviceState = { devices: initialDevices };
     setState("devices", deviceState, true);
+    setCounter(counter + 1);
   };
 
   return (
