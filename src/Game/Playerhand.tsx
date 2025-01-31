@@ -4,10 +4,10 @@ import { Card } from "./game";
 import { getState } from "playroomkit";
 
 interface Props {
-  index: number;
+  playerIndex: number;
 }
 
-export function Playerhand({ index }: Props) {
+export function Playerhand({ playerIndex: playerIndex }: Props) {
   // const { currentGame } = useContext(GameContext);
   //const { game } = useGameEngine();
   return (
@@ -20,15 +20,18 @@ export function Playerhand({ index }: Props) {
       >
         <li>
           {getState("game")
-            ? getState("game").players[index].name + "s hand"
+            ? getState("game").players[playerIndex].name + "s hand"
             : "no game"}
         </li>
         {getState("game")
-          ? getState("game").players[index].hand.map(
+          ? getState("game").players[playerIndex].hand.map(
               (card: Card, cardIndex: number) => {
-                console.log(card);
+                //console.log(card);
                 return (
-                  <UnoCard handIndex={cardIndex} playerIndex={index}></UnoCard>
+                  <UnoCard
+                    handIndex={cardIndex}
+                    playerIndex={playerIndex}
+                  ></UnoCard>
                 );
               }
             )

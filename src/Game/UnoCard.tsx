@@ -123,12 +123,11 @@ export function UnoCard({ handIndex, playerIndex }: Props) {
           <li
             style={{ border: "1px solid rgb(27, 189, 238)" }}
             onClick={() => {
-              console.log("clicked");
               if (getState("game") != null) {
                 let gameInstance = new Game([""]);
                 gameInstance.fromGameState(getState("game"));
                 gameInstance.playCard(playerIndex, handIndex);
-                console.log(gameInstance.toGameState());
+
                 setState("game", gameInstance.toGameState(), true);
               }
             }}

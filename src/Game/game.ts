@@ -329,7 +329,7 @@ export class Game {
   }
   
     private dealInitialCards() {
-      this.players.forEach((player : Player,index: number) => {console.log(player); this.drawCards(index, 7)});
+      this.players.forEach((player : Player,index: number) => {console.log(player);this.drawCards(index, 7)});
     }
 
     private turnFirstCard(){
