@@ -63,7 +63,7 @@ const GeoDemo = ({ index: index }: Props) => {
     <table>
       <tbody>
         <tr>
-          <button onClick={startSynch}>start synch</button>
+          <button onClick={() => startSynch()}>start synch</button>
         </tr>
         <td>updates: </td>
         <td>{counter}</td>
