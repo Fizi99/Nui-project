@@ -1,6 +1,5 @@
 import "./App.css";
 import { myPlayer, usePlayersList } from "playroomkit";
-import Accelerometer from "./trackingTest/TestStartPage";
 import { HostStartPage } from "./Game/HostStartPage";
 import { PlayerStartPage } from "./Game/PlayerStartPage";
 import { useGameEngine } from "./hooks/useGameEngine";
@@ -41,7 +40,7 @@ function App() {
         <PlayerStartPage playerIndex={index}></PlayerStartPage>
       )}
 
-      <Accelerometer />
+      {/* {<Accelerometer />} */}
       <GeoDemo index={index}></GeoDemo>
       {devices.devices.map((device: any, deviceIndex: number) => {
         console.log(device);
