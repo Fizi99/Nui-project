@@ -5,8 +5,8 @@ interface MotionData {
   position: { x: number; y: number; z: number };
   velocity: { x: number; y: number; z: number };
   timestamp: number | null;
-  latitude: number | null;
-  longitude: number | null;
+  latitude: number;
+  longitude: number;
 }
 
 const ACCELERATION_THRESHOLD = 0.1;
@@ -18,8 +18,8 @@ const MotionTracker: React.FC = () => {
     position: { x: 0, y: 0, z: 0 },
     velocity: { x: 0, y: 0, z: 0 },
     timestamp: null,
-    latitude: null,
-    longitude: null,
+    latitude: 0,
+    longitude: 0,
   });
   const [isTracking, setIsTracking] = useState(false);
   const [permissionsGranted, setPermissionsGranted] = useState(false);
@@ -118,8 +118,8 @@ const MotionTracker: React.FC = () => {
       position: { x: 0, y: 0, z: 0 },
       velocity: { x: 0, y: 0, z: 0 },
       timestamp: null,
-      latitude: null,
-      longitude: null,
+      latitude: 0,
+      longitude: 0,
     });
   };
 
