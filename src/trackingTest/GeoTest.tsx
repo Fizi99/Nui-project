@@ -76,16 +76,8 @@ const GeoDemo = ({ index: index }: Props) => {
           <td>{coords.longitude}</td>
         </tr>
         <tr>
-          <td>altitude</td>
-          <td>{coords.altitude}</td>
-        </tr>
-        <tr>
-          <td>heading</td>
-          <td>{coords.heading}</td>
-        </tr>
-        <tr>
-          <td>speed</td>
-          <td>{coords.speed}</td>
+          <td>accuracy</td>
+          <td>{coords.accuracy}</td>
         </tr>
       </tbody>
     </table>

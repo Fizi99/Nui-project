@@ -18,7 +18,7 @@ const GeoOtherDevices = ({ index: index }: Props) => {
             </td>
           </tr>
           <tr>
-            <td>device location x:</td>
+            <td>device location latitude:</td>
             <td>
               {getState("devices").devices[index]
                 ? getState("devices").devices[index].location.x
@@ -26,7 +26,7 @@ const GeoOtherDevices = ({ index: index }: Props) => {
             </td>
           </tr>
           <tr>
-            <td>device location y:</td>
+            <td>device location longitude:</td>
             <td>
               {getState("devices").devices[index]
                 ? getState("devices").devices[index].location.y
