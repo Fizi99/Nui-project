@@ -65,9 +65,9 @@ const MotionTracker: React.FC = () => {
       const accY = Math.abs(y as number) > ACCELERATION_THRESHOLD ? y : 0;
       const accZ = Math.abs(z as number) > ACCELERATION_THRESHOLD ? z : 0;
 
-      const velX = ((prev.velocity.x + accX) as number) * dt;
-      const velY = ((prev.velocity.y + accY) as number) * dt;
-      const velZ = ((prev.velocity.z + accZ) as number) * dt;
+      const velX = prev.velocity.x + (accX as number * dt) ;
+      const velY = prev.velocity.y + (accY as number * dt) ;
+      const velZ = prev.velocity.z + (accZ as number * dt) ;
 
       const posX = prev.position.x + velX * dt;
       const posY = prev.position.y + velY * dt;
