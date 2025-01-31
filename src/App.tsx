@@ -5,6 +5,7 @@ import { PlayerStartPage } from "./Game/PlayerStartPage";
 import { useGameEngine } from "./hooks/useGameEngine";
 import GeoDemo from "./trackingTest/GeoTest";
 import GeoOtherDevices from "./trackingTest/GeoOtherDevices";
+import Accelerometer from "./trackingTest/TestStartPage";
 
 function App() {
   const { game, devices } = useGameEngine();
@@ -40,7 +41,7 @@ function App() {
         <PlayerStartPage playerIndex={index}></PlayerStartPage>
       )}
 
-      {/* {<Accelerometer />} */}
+      <Accelerometer />
       <GeoDemo index={index}></GeoDemo>
       {devices.devices.map((device: any, deviceIndex: number) => {
         console.log(device);
