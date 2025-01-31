@@ -142,6 +142,13 @@ const MotionTracker: React.FC = () => {
           Request Permissions
         </button>
       )}
+      <div className="mt-4 p-4 border rounded">
+        <h3 className="text-lg font-bold">acceleration Data (meters)</h3>
+        <p>X: {motion.acceleration.x.toFixed(2)}</p>
+        <p>Y: {motion.acceleration.y.toFixed(2)}</p>
+        <p>Z: {motion.acceleration.z.toFixed(2)}</p>
+      </div>
+      
       <div className="mt-4">
         <button
           onClick={startTracking}
