@@ -5,8 +5,6 @@ interface MotionData {
   position: { x: number; y: number; z: number };
   velocity: { x: number; y: number; z: number };
   timestamp: number | null;
-  latitude: number;
-  longitude: number;
 }
 
 const ACCELERATION_THRESHOLD = 0.1;
@@ -18,8 +16,6 @@ const MotionTracker: React.FC = () => {
     position: { x: 0, y: 0, z: 0 },
     velocity: { x: 0, y: 0, z: 0 },
     timestamp: null,
-    latitude: 0,
-    longitude: 0,
   });
   const [isTracking, setIsTracking] = useState(false);
   const [permissionsGranted, setPermissionsGranted] = useState(false);
@@ -63,38 +59,47 @@ const MotionTracker: React.FC = () => {
       if (!prev.timestamp) {
         return { ...prev, timestamp };
       }
-      const navigator = new Navigator().geolocation;
-
 
       const dt = (timestamp - prev.timestamp) / 1000;
-      let longitude = null;
-      let latitude = null;
-      navigator.getCurrentPosition((position) => {
-          latitude = position.coords.latitude;
-          longitude = position.coords.longitude;
-          //console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-      });
+      const accXTemp = x as number;
+      const accYTemp = y as number;
+      const accZTemp = z as number;
+      const accX =
+        Math.abs(x as number) > ACCELERATION_THRESHOLD ? accXTemp : 0;
+      const accY =
+        Math.abs(y as number) > ACCELERATION_THRESHOLD ? accYTemp : 0;
+      const accZ =
+        Math.abs(z as number) > ACCELERATION_THRESHOLD ? accZTemp : 0;
 
-      const accX = Math.abs(x as number) > ACCELERATION_THRESHOLD ? x : 0;
-      const accY = Math.abs(y as number) > ACCELERATION_THRESHOLD ? y : 0;
-      const accZ = Math.abs(z as number) > ACCELERATION_THRESHOLD ? z : 0;
+      if (Math.abs(accX) > 0 || Math.abs(accY) > 0 || Math.abs(accZ) > 0) {
+        const velX = (prev.velocity.x + (accX as number) * dt) * FRICTION;
+        const velY = (prev.velocity.y + (accY as number) * dt) * FRICTION;
+        const velZ = (prev.velocity.z + (accZ as number) * dt) * FRICTION;
 
-      const velX = prev.velocity.x + (accX as number * dt)*FRICTION ;
-      const velY = prev.velocity.y + (accY as number * dt)*FRICTION ;
-      const velZ = prev.velocity.z + (accZ as number * dt)*FRICTION ;
-
-      const posX = prev.position.x + velX * dt;
-      const posY = prev.position.y + velY * dt;
-      const posZ = prev.position.z + velZ * dt;
+        const posX = prev.position.x + velX * dt;
+        const posY = prev.position.y + velY * dt;
+        const posZ = prev.position.z + velZ * dt;
+        return {
+          acceleration: { x: accX, y: accY, z: accZ },
+          velocity: { x: velX, y: velY, z: velZ },
+          position: { x: posX, y: posY, z: posZ },
+          timestamp,
+        };
+      }
 
       return {
         acceleration: { x: accX, y: accY, z: accZ },
-        velocity: { x: velX, y: velY, z: velZ },
-        position: { x: posX, y: posY, z: posZ },
+        velocity: {
+          x: prev.velocity.x,
+          y: prev.velocity.y,
+          z: prev.velocity.z,
+        },
+        position: {
+          x: prev.position.x,
+          y: prev.position.y,
+          z: prev.position.z,
+        },
         timestamp,
-        latitude,
-        longitude,
-
       };
     });
   };
@@ -118,8 +123,6 @@ const MotionTracker: React.FC = () => {
       position: { x: 0, y: 0, z: 0 },
       velocity: { x: 0, y: 0, z: 0 },
       timestamp: null,
-      latitude: 0,
-      longitude: 0,
     });
   };
 
@@ -158,33 +161,23 @@ const MotionTracker: React.FC = () => {
         </button>
       </div>
       <div className="mt-4 p-4 border rounded">
+        <h3 className="text-lg font-bold">Position Data (meters)</h3>
+        <p>X: {motion.position.x.toFixed(4)}</p>
+        <p>Y: {motion.position.y.toFixed(4)}</p>
+        <p>Z: {motion.position.z.toFixed(4)}</p>
+      </div>
+      <div className="mt-4 p-4 border rounded">
         <h3 className="text-lg font-bold">acceleration Data (meters)</h3>
-        <p>X: {motion.acceleration.x}</p>
-        <p>Y: {motion.acceleration.y}</p>
-        <p>Z: {motion.acceleration.z}</p>
+        <p>X: {motion.acceleration.x.toFixed(4)}</p>
+        <p>Y: {motion.acceleration.y.toFixed(4)}</p>
+        <p>Z: {motion.acceleration.z.toFixed(4)}</p>
       </div>
       <div className="mt-4 p-4 border rounded">
         <h3 className="text-lg font-bold">velocity Data (meters)</h3>
-        <p>X: {motion.velocity.x}</p>
-        <p>Y: {motion.velocity.y}</p>
-        <p>Z: {motion.velocity.z}</p>
+        <p>X: {motion.velocity.x.toFixed(4)}</p>
+        <p>Y: {motion.velocity.y.toFixed(4)}</p>
+        <p>Z: {motion.velocity.z.toFixed(4)}</p>
       </div>
-      <div className="mt-4 p-4 border rounded">
-        <h3 className="text-lg font-bold">timestamp Data (meters)</h3>
-        <p>timeStamp: {motion.timestamp}</p>
-      </div>
-      <div className="mt-4 p-4 border rounded">
-        <h3 className="text-lg font-bold">Position Data (meters)</h3>
-        <p>X: {motion.position.x}</p>
-        <p>Y: {motion.position.y}</p>
-        <p>Z: {motion.position.z}</p>
-      </div>
-      <div className="mt-4 p-4 border rounded">
-        <h3 className="text-lg font-bold">longitude and latitude Data (meters)</h3>
-        <p>latitude: {motion.latitude}</p>
-        <p>longitude: {motion.longitude}</p>
-      </div>
-      <div>{}</div>
     </div>
   );
 };
