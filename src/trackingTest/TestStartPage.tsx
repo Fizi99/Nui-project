@@ -5,10 +5,12 @@ interface MotionData {
   position: { x: number; y: number; z: number };
   velocity: { x: number; y: number; z: number };
   timestamp: number | null;
+  latitude: number | null;
+  longitude: number | null;
 }
 
 const ACCELERATION_THRESHOLD = 0.1;
-//const FRICTION = 0.95;
+const FRICTION = 0.95;
 
 const MotionTracker: React.FC = () => {
   const [motion, setMotion] = useState<MotionData>({
@@ -16,6 +18,8 @@ const MotionTracker: React.FC = () => {
     position: { x: 0, y: 0, z: 0 },
     velocity: { x: 0, y: 0, z: 0 },
     timestamp: null,
+    latitude: null,
+    longitude: null,
   });
   const [isTracking, setIsTracking] = useState(false);
   const [permissionsGranted, setPermissionsGranted] = useState(false);
@@ -59,15 +63,25 @@ const MotionTracker: React.FC = () => {
       if (!prev.timestamp) {
         return { ...prev, timestamp };
       }
+      const navigator = new Navigator().geolocation;
+
 
       const dt = (timestamp - prev.timestamp) / 1000;
+      let longitude = null;
+      let latitude = null;
+      navigator.getCurrentPosition((position) => {
+          latitude = position.coords.latitude;
+          longitude = position.coords.longitude;
+          //console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+      });
+
       const accX = Math.abs(x as number) > ACCELERATION_THRESHOLD ? x : 0;
       const accY = Math.abs(y as number) > ACCELERATION_THRESHOLD ? y : 0;
       const accZ = Math.abs(z as number) > ACCELERATION_THRESHOLD ? z : 0;
 
-      const velX = prev.velocity.x + (accX as number * dt) ;
-      const velY = prev.velocity.y + (accY as number * dt) ;
-      const velZ = prev.velocity.z + (accZ as number * dt) ;
+      const velX = prev.velocity.x + (accX as number * dt)*FRICTION ;
+      const velY = prev.velocity.y + (accY as number * dt)*FRICTION ;
+      const velZ = prev.velocity.z + (accZ as number * dt)*FRICTION ;
 
       const posX = prev.position.x + velX * dt;
       const posY = prev.position.y + velY * dt;
@@ -78,6 +92,9 @@ const MotionTracker: React.FC = () => {
         velocity: { x: velX, y: velY, z: velZ },
         position: { x: posX, y: posY, z: posZ },
         timestamp,
+        latitude,
+        longitude,
+
       };
     });
   };
@@ -101,6 +118,8 @@ const MotionTracker: React.FC = () => {
       position: { x: 0, y: 0, z: 0 },
       velocity: { x: 0, y: 0, z: 0 },
       timestamp: null,
+      latitude: null,
+      longitude: null,
     });
   };
 
@@ -152,7 +171,7 @@ const MotionTracker: React.FC = () => {
       </div>
       <div className="mt-4 p-4 border rounded">
         <h3 className="text-lg font-bold">timestamp Data (meters)</h3>
-        <p>X: {motion.timestamp}</p>
+        <p>timeStamp: {motion.timestamp}</p>
       </div>
       <div className="mt-4 p-4 border rounded">
         <h3 className="text-lg font-bold">Position Data (meters)</h3>
@@ -160,6 +179,12 @@ const MotionTracker: React.FC = () => {
         <p>Y: {motion.position.y}</p>
         <p>Z: {motion.position.z}</p>
       </div>
+      <div className="mt-4 p-4 border rounded">
+        <h3 className="text-lg font-bold">longitude and latitude Data (meters)</h3>
+        <p>latitude: {motion.latitude}</p>
+        <p>longitude: {motion.longitude}</p>
+      </div>
+      <div>{}</div>
     </div>
   );
 };
