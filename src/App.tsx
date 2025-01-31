@@ -41,7 +41,7 @@ function App() {
         <PlayerStartPage playerIndex={index}></PlayerStartPage>
       )}
 
-      <MotionTracker />
+      <Accelerometer />
       <GeoDemo index={index}></GeoDemo>
       {devices.devices.map((device: any, deviceIndex: number) => {
         console.log(device);
