@@ -127,6 +127,7 @@ export default function GeoDemo({ index: index }: Props) {
       {userLocation && (
         <div>
           <h2>User Location</h2>
+          <h2>updates: {counter}</h2>
           <p>Latitude: {userLocation.latitude}</p>
           <p>Longitude: {userLocation.longitude}</p>
         </div>
