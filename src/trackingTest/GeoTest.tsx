@@ -43,7 +43,7 @@ const GeoDemo = ({ index: index }: Props) => {
   };
 
   const startSynch = () => {
-    let devices: Device[] = getState("devices").devices;
+    let devices: Device[] = [];
     devices[index] = {
       index: index,
       location: {
