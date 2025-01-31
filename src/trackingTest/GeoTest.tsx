@@ -6,6 +6,7 @@ const Demo = () => {
       positionOptions: {
         enableHighAccuracy: true,
       },
+      watchPosition: true,
       userDecisionTimeout: 5000,
     });
 
