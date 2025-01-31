@@ -54,6 +54,7 @@ const MotionTracker: React.FC = () => {
 
     const { x = 0, y = 0, z = 0 } = event.acceleration;
     const timestamp = event.timeStamp;
+    const interval = event.interval;
 
     setMotion((prev: any) => {
       if (!prev.timestamp) {
@@ -72,13 +73,16 @@ const MotionTracker: React.FC = () => {
         Math.abs(z as number) > ACCELERATION_THRESHOLD ? accZTemp : 0;
 
       if (Math.abs(accX) > 0 || Math.abs(accY) > 0 || Math.abs(accZ) > 0) {
-        const velX = prev.velocity.x + (accX as number) * dt;
-        const velY = prev.velocity.y + (accY as number) * dt;
-        const velZ = prev.velocity.z + (accZ as number) * dt;
+        const velX = prev.velocity.x + (accXTemp as number) * dt;
+        const velY = prev.velocity.y + (accYTemp as number) * dt;
+        const velZ = prev.velocity.z + (accZTemp as number) * dt;
 
-        const posX = prev.position.x + velX * dt;
-        const posY = prev.position.y + velY * dt;
-        const posZ = prev.position.z + velZ * dt;
+        const posX =
+          prev.position.x + prev.velocity.x * dt + (1 / 2) * accXTemp * dt * dt;
+        const posY =
+          prev.position.y + prev.velocity.y * dt + (1 / 2) * accYTemp * dt * dt;
+        const posZ =
+          prev.position.z + prev.velocity.z * dt + (1 / 2) * accZTemp * dt * dt;
         return {
           acceleration: { x: accX, y: accY, z: accZ },
           velocity: { x: velX, y: velY, z: velZ },
