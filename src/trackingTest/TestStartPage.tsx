@@ -5,6 +5,7 @@ interface MotionData {
   position: { x: number; y: number; z: number };
   velocity: { x: number; y: number; z: number };
   timestamp: number | null;
+  interval: number;
 }
 
 const ACCELERATION_THRESHOLD = 0.1;
@@ -16,6 +17,7 @@ const MotionTracker: React.FC = () => {
     position: { x: 0, y: 0, z: 0 },
     velocity: { x: 0, y: 0, z: 0 },
     timestamp: null,
+    interval: 0,
   });
   const [isTracking, setIsTracking] = useState(false);
   const [permissionsGranted, setPermissionsGranted] = useState(false);
@@ -88,6 +90,7 @@ const MotionTracker: React.FC = () => {
           velocity: { x: velX, y: velY, z: velZ },
           position: { x: posX, y: posY, z: posZ },
           timestamp,
+          interval,
         };
       }
 
@@ -104,6 +107,7 @@ const MotionTracker: React.FC = () => {
           z: prev.position.z,
         },
         timestamp,
+        interval,
       };
     });
   };
@@ -127,6 +131,7 @@ const MotionTracker: React.FC = () => {
       position: { x: 0, y: 0, z: 0 },
       velocity: { x: 0, y: 0, z: 0 },
       timestamp: null,
+      interval: 0,
     });
   };
 
@@ -163,6 +168,11 @@ const MotionTracker: React.FC = () => {
         >
           Calibrate
         </button>
+      </div>
+      <div className="mt-4 p-4 border rounded">
+        <h3 className="text-lg font-bold">timestamp + interval</h3>
+        <p>timestamp: {motion.timestamp ? motion.timestamp.toFixed(4) : 0}</p>
+        <p>interval: {motion.interval.toFixed(4)}</p>
       </div>
       <div className="mt-4 p-4 border rounded">
         <h3 className="text-lg font-bold">Position Data (meters)</h3>
