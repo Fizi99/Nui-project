@@ -1,10 +1,10 @@
 import { useGeolocated } from "react-geolocated";
 
 const Demo = () => {
-  const { coords, isGeolocationAvailable, isGeolocationEnabled } =
+  const { timestamp, coords, isGeolocationAvailable, isGeolocationEnabled } =
     useGeolocated({
       positionOptions: {
-        enableHighAccuracy: false,
+        enableHighAccuracy: true,
       },
       userDecisionTimeout: 5000,
     });
@@ -35,6 +35,14 @@ const Demo = () => {
         <tr>
           <td>speed</td>
           <td>{coords.speed}</td>
+        </tr>
+        <tr>
+          <td>accuracy</td>
+          <td>{coords.accuracy}</td>
+        </tr>
+        <tr>
+          <td>timestamp</td>
+          <td>{timestamp}</td>
         </tr>
       </tbody>
     </table>
