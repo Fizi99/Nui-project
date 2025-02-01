@@ -2,12 +2,21 @@ import { getState, setState } from "playroomkit";
 import { useGeolocated } from "react-geolocated";
 import { Device } from "./Device";
 import { useEffect, useState } from "react";
+import GoogleMapScreenshot from "./TrackingAccuracyTest";
 
 interface Props {
   index: number;
 }
 
+interface Marker {
+  lat: number;
+  lng: number;
+  color: string;
+}
+
 const GeoDemo = ({ index: index }: Props) => {
+  const [markers, setMarkers] = useState<Marker[]>([]);
+
   const [counter, setCounter] = useState(0);
 
   const [filteredPos, setFilteredPos] = useState({
@@ -16,7 +25,7 @@ const GeoDemo = ({ index: index }: Props) => {
     accuracy: 0,
   });
 
-  const kalmanFilter = new KalmanLatLong(1);
+  const [kalmanFilter] = useState(new KalmanLatLong(1));
 
   const { coords, timestamp, isGeolocationAvailable, isGeolocationEnabled } =
     useGeolocated({
@@ -32,6 +41,7 @@ const GeoDemo = ({ index: index }: Props) => {
     synchronizeLocation();
     setCounter(counter + 1);
     if (coords && timestamp) {
+      console.log("filtering variance: " + kalmanFilter.variance);
       kalmanFilter.process(
         coords.latitude,
         coords.longitude,
@@ -44,6 +54,23 @@ const GeoDemo = ({ index: index }: Props) => {
         long: kalmanFilter.getLng(),
         accuracy: kalmanFilter.getAccuracy(),
       });
+
+      const markersTemp: Marker[] = markers.slice();
+      markersTemp.push({
+        lat: coords.latitude,
+        lng: coords.longitude,
+        color: "blue",
+      });
+
+      markersTemp.push({
+        lat: kalmanFilter.getLat(),
+        lng: kalmanFilter.getLng(),
+        color: "red",
+      });
+
+      console.log(markersTemp);
+
+      setMarkers(markersTemp);
     }
   }, [coords]);
 
@@ -107,6 +134,7 @@ const GeoDemo = ({ index: index }: Props) => {
           <td>filtered</td>
           <td>{filteredPos.accuracy}</td>
         </tr>
+        <GoogleMapScreenshot markers={markers} />
       </tbody>
     </table>
   ) : (
@@ -123,7 +151,7 @@ class KalmanLatLong {
   private TimeStamp_milliseconds: number;
   private lat: number;
   private lng: number;
-  private variance: number; // P matrix. Negative means object uninitialized
+  public variance: number; // P matrix. Negative means object uninitialized
 
   constructor(Q_metres_per_second: number) {
     this.Q_metres_per_second = Q_metres_per_second;
@@ -175,9 +203,12 @@ class KalmanLatLong {
       this.lat = lat_measurement;
       this.lng = lng_measurement;
       this.variance = accuracy * accuracy;
+      console.log("initialized accuracy: " + accuracy);
+      console.log("initialized accuracy: " + accuracy * accuracy);
+      console.log("initialized vaiance: " + this.variance * this.variance);
     } else {
       // Apply Kalman filter methodology
-
+      console.log("filtering");
       let TimeInc_milliseconds =
         TimeStamp_milliseconds - this.TimeStamp_milliseconds;
       if (TimeInc_milliseconds > 0) {
