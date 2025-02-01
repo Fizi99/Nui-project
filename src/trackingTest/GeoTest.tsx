@@ -38,9 +38,13 @@ const GeoDemo = ({ index: index }: Props) => {
         coords.accuracy,
         timestamp
       );
-    }
 
-    setFilteredPos;
+      setFilteredPos({
+        lat: kalmanFilter.getLat(),
+        long: kalmanFilter.getLng(),
+        accuracy: kalmanFilter.getAccuracy(),
+      });
+    }
   }, [coords]);
 
   const synchronizeLocation = () => {
