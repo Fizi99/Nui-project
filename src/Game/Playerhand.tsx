@@ -25,7 +25,7 @@ export function Playerhand({ playerIndex: playerIndex }: Props) {
         </li>
         {getState("game")
           ? getState("game").players[playerIndex].hand.map(
-              (_card: Card, cardIndex: number) => {
+              (card: Card, cardIndex: number) => {
                 //console.log(card);
                 return (
                   <UnoCard

@@ -1,11 +1,11 @@
 import "./App.css";
 import { myPlayer, usePlayersList } from "playroomkit";
+import MotionTracker from "./trackingTest/TestStartPage";
 import { HostStartPage } from "./Game/HostStartPage";
 import { PlayerStartPage } from "./Game/PlayerStartPage";
 import { useGameEngine } from "./hooks/useGameEngine";
 import GeoDemo from "./trackingTest/GeoTest";
 import GeoOtherDevices from "./trackingTest/GeoOtherDevices";
-import Accelerometer from "./trackingTest/TestStartPage";
 
 function App() {
   const { game, devices } = useGameEngine();
@@ -41,10 +41,9 @@ function App() {
         <PlayerStartPage playerIndex={index}></PlayerStartPage>
       )}
 
-      <Accelerometer />
+      <MotionTracker />
       <GeoDemo index={index}></GeoDemo>
-      {devices.devices.map((device: any, deviceIndex: number) => {
-        console.log(device);
+      {devices.devices.map((_device: any, deviceIndex: number) => {
         return <GeoOtherDevices index={deviceIndex}></GeoOtherDevices>;
       })}
     </>
