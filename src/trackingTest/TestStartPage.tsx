@@ -16,7 +16,7 @@ type MotionAction =
 // Constants
 const ACCELERATION_THRESHOLD = 0.1;
 // const VELOCITY_THRESHOLD = 0.0001;
-const FRICTION = 0.95;
+// const FRICTION = 0.95;
 
 // Motion reducer function
 const motionReducer = (state: MotionData, action: MotionAction): MotionData => {
