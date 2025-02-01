@@ -98,9 +98,9 @@ const MotionTracker: React.FC = () => {
     const accY = Math.abs(y) > ACCELERATION_THRESHOLD ? y : 0;
     const accZ = Math.abs(z) > ACCELERATION_THRESHOLD ? z : 0;
 
-    let velX = (prev.velocity.x + accX * dt) * FRICTION;
-    let velY = (prev.velocity.y + accY * dt) * FRICTION;
-    let velZ = (prev.velocity.z + accZ * dt) * FRICTION;
+    let velX = prev.velocity.x + accX * dt;
+    let velY = prev.velocity.y + accY * dt;
+    let velZ = prev.velocity.z + accZ * dt;
 
     // velX = Math.abs(x) > VELOCITY_THRESHOLD ? velXTemp : 0;
     // velY = Math.abs(y) > VELOCITY_THRESHOLD ? velYTemp : 0;
@@ -145,7 +145,7 @@ const MotionTracker: React.FC = () => {
       {error && <div className="text-red-500">{error}</div>}
       {!permissionsGranted && (
         <button
-          onClick={requestPermissions}
+          onClick={() => requestPermissions()}
           className="bg-blue-500 text-white px-4 py-2 rounded"
         >
           Request Permissions
@@ -153,26 +153,32 @@ const MotionTracker: React.FC = () => {
       )}
       <div className="mt-4">
         <button
-          onClick={startTracking}
+          onClick={() => startTracking()}
           disabled={!permissionsGranted || isTracking}
           className="bg-green-500 text-white px-4 py-2 rounded m-2"
         >
           Start Tracking
         </button>
         <button
-          onClick={stopTracking}
+          onClick={() => stopTracking()}
           disabled={!isTracking}
           className="bg-red-500 text-white px-4 py-2 rounded m-2"
         >
           Stop Tracking
         </button>
         <button
-          onClick={calibrate}
+          onClick={() => calibrate()}
           disabled={!isTracking}
           className="bg-yellow-500 text-white px-4 py-2 rounded m-2"
         >
           Calibrate
         </button>
+      </div>
+      <div className="mt-4 p-4 border rounded">
+        <h3 className="text-lg font-bold">acceleration Data (meters)</h3>
+        <p>X: {motion.acceleration.x}</p>
+        <p>Y: {motion.acceleration.y}</p>
+        <p>Z: {motion.acceleration.z}</p>
       </div>
       <div className="mt-4 p-4 border rounded">
         <h3 className="text-lg font-bold">Position Data (meters)</h3>
