@@ -18,7 +18,7 @@ function App() {
 
   const compassCircle = document.querySelector<HTMLDivElement>(".compass-circle");
   const startBtn = document.querySelector<HTMLButtonElement>(".start-btn");
-  const myPoint = document.querySelector<HTMLDivElement>(".my-point");
+  //const myPoint = document.querySelector<HTMLDivElement>(".my-point");
   
   let compass: number;
   
