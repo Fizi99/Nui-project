@@ -19,16 +19,16 @@ function App() {
   const compassCircle = document.querySelector<HTMLDivElement>(".compass-circle");
   const startBtn = document.querySelector<HTMLButtonElement>(".start-btn");
   //const myPoint = document.querySelector<HTMLDivElement>(".my-point");
+  const alphaLabel = document.createElement("label");
+  document.body.appendChild(alphaLabel);
   
   let compass: number;
   
-  // Detect if the device is running iOS
   const isIOS: boolean = !!(
     navigator.userAgent.match(/(iPod|iPhone|iPad)/) &&
     navigator.userAgent.match(/AppleWebKit/)
   );
   
-  // Extend DeviceOrientationEvent to include webkitCompassHeading
   interface DeviceOrientationEventWithCompass extends DeviceOrientationEvent {
     webkitCompassHeading?: number;
   }
@@ -60,6 +60,7 @@ function App() {
     if (compassCircle) {
       compassCircle.style.transform = `translate(-50%, -50%) rotate(${-compass}deg)`;
     }
+    alphaLabel.textContent = `Alpha: ${e.alpha?.toFixed(2) ?? "N/A"}`;
   }
   
   init();
