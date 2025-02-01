@@ -176,15 +176,15 @@ const MotionTracker: React.FC = () => {
       </div>
       <div className="mt-4 p-4 border rounded">
         <h3 className="text-lg font-bold">Position Data (meters)</h3>
-        <p>X: {motion.position.x.toFixed(4)}</p>
-        <p>Y: {motion.position.y.toFixed(4)}</p>
-        <p>Z: {motion.position.z.toFixed(4)}</p>
+        <p>X: {motion.position.x}</p>
+        <p>Y: {motion.position.y}</p>
+        <p>Z: {motion.position.z}</p>
       </div>
       <div className="mt-4 p-4 border rounded">
         <h3 className="text-lg font-bold">velocity Data (meters)</h3>
-        <p>X: {motion.velocity.x.toFixed(4)}</p>
-        <p>Y: {motion.velocity.y.toFixed(4)}</p>
-        <p>Z: {motion.velocity.z.toFixed(4)}</p>
+        <p>X: {motion.velocity.x}</p>
+        <p>Y: {motion.velocity.y}</p>
+        <p>Z: {motion.velocity.z}</p>
       </div>
     </div>
   );
