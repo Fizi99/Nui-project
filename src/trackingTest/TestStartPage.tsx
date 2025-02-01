@@ -15,7 +15,7 @@ type MotionAction =
 
 // Constants
 const ACCELERATION_THRESHOLD = 0.1;
-const VELOCITY_THRESHOLD = 0.01;
+// const VELOCITY_THRESHOLD = 0.0001;
 const FRICTION = 0.95;
 
 // Motion reducer function
@@ -98,13 +98,13 @@ const MotionTracker: React.FC = () => {
     const accY = Math.abs(y) > ACCELERATION_THRESHOLD ? y : 0;
     const accZ = Math.abs(z) > ACCELERATION_THRESHOLD ? z : 0;
 
-    const velXTemp = (prev.velocity.x + accX * dt) * FRICTION;
-    const velYTemp = (prev.velocity.y + accY * dt) * FRICTION;
-    const velZTemp = (prev.velocity.z + accZ * dt) * FRICTION;
+    let velX = (prev.velocity.x + accX * dt) * FRICTION;
+    let velY = (prev.velocity.y + accY * dt) * FRICTION;
+    let velZ = (prev.velocity.z + accZ * dt) * FRICTION;
 
-    const velX = Math.abs(x) > VELOCITY_THRESHOLD ? velXTemp : 0;
-    const velY = Math.abs(y) > VELOCITY_THRESHOLD ? velYTemp : 0;
-    const velZ = Math.abs(z) > VELOCITY_THRESHOLD ? velZTemp : 0;
+    // velX = Math.abs(x) > VELOCITY_THRESHOLD ? velXTemp : 0;
+    // velY = Math.abs(y) > VELOCITY_THRESHOLD ? velYTemp : 0;
+    // velZ = Math.abs(z) > VELOCITY_THRESHOLD ? velZTemp : 0;
 
     const posX = prev.position.x + velX * dt;
     const posY = prev.position.y + velY * dt;
@@ -181,7 +181,7 @@ const MotionTracker: React.FC = () => {
         <p>Z: {motion.position.z.toFixed(2)}</p>
       </div>
       <div className="mt-4 p-4 border rounded">
-        <h3 className="text-lg font-bold">Position Data (meters)</h3>
+        <h3 className="text-lg font-bold">velocity Data (meters)</h3>
         <p>X: {motion.velocity.x.toFixed(2)}</p>
         <p>Y: {motion.velocity.y.toFixed(2)}</p>
         <p>Z: {motion.velocity.z.toFixed(2)}</p>
