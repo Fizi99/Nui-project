@@ -2,21 +2,12 @@ import { getState, setState } from "playroomkit";
 import { useGeolocated } from "react-geolocated";
 import { Device } from "./Device";
 import { useEffect, useState } from "react";
-import GoogleMapScreenshot from "./TrackingAccuracyTest";
 
 interface Props {
   index: number;
 }
 
-interface Marker {
-  lat: number;
-  lng: number;
-  color: string;
-}
-
 const GeoDemo = ({ index: index }: Props) => {
-  const [markers, setMarkers] = useState<Marker[]>([]);
-
   const [counter, setCounter] = useState(0);
 
   const [filteredPos, setFilteredPos] = useState({
@@ -54,23 +45,6 @@ const GeoDemo = ({ index: index }: Props) => {
         long: kalmanFilter.getLng(),
         accuracy: kalmanFilter.getAccuracy(),
       });
-
-      const markersTemp: Marker[] = markers.slice();
-      markersTemp.push({
-        lat: coords.latitude,
-        lng: coords.longitude,
-        color: "blue",
-      });
-
-      markersTemp.push({
-        lat: kalmanFilter.getLat(),
-        lng: kalmanFilter.getLng(),
-        color: "red",
-      });
-
-      console.log(markersTemp);
-
-      setMarkers(markersTemp);
     }
   }, [coords]);
 
@@ -80,8 +54,8 @@ const GeoDemo = ({ index: index }: Props) => {
       devices[index] = {
         index: index,
         location: {
-          x: coords ? coords.latitude : 0,
-          y: coords ? coords.longitude : 0,
+          x: kalmanFilter.getLat() ? kalmanFilter.getLat() : 0,
+          y: kalmanFilter.getLng() ? kalmanFilter.getLng() : 0,
         },
       };
       let deviceState = { devices: devices };
@@ -134,7 +108,6 @@ const GeoDemo = ({ index: index }: Props) => {
           <td>filtered</td>
           <td>{filteredPos.accuracy}</td>
         </tr>
-        <GoogleMapScreenshot markers={markers} />
       </tbody>
     </table>
   ) : (
