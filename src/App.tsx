@@ -60,7 +60,7 @@ function App() {
     if (compassCircle) {
       compassCircle.style.transform = `translate(-50%, -50%) rotate(${-compass}deg)`;
     }
-    alphaLabel.textContent = `Alpha: ${e.alpha?.toFixed(2) ?? "N/A"}`;
+    alphaLabel.textContent = `Beta: ${e.beta?.toFixed(2) ?? "N/A"}`;
   }
   
   init();
