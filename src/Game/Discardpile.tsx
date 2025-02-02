@@ -132,57 +132,68 @@ export function Discardpile({ playerDevices }: Props) {
   //   }
   // }, [wasCardJustPlayed, isSecondCardAnimationComplete]);
 
-  function showDiscardHistory() {
-    if (game?.discardPile.length >= 5) {
-      for (let i = 0; i < 5; i++) {
-        game?.discardPile[i]
-      }
-    } else {
-      for (let i = 0; i < game?.discardPile.length; i++) {
+  // function showDiscardHistory() {
+  //   if (game?.discardPile.length >= 5) {
+  //     for (let i = 0; i < 5; i++) {
+  //       game?.discardPile[i]
+  //     }
+  //   } else {
+  //     for (let i = 0; i < game?.discardPile.length; i++) {
 
-      }
-    }
-    const label = document.getElementById("iSneaky")!;
-    if (label.style.visibility == "hidden") {
-      label.style.visibility = "visible";
-    }
-    else {
-      label.style.visibility = "hidden";
-    }
-  }
+  //     }
+  //   }
+  //   const label = document.getElementById("iSneaky")!;
+  //   if (label.style.visibility == "hidden") {
+  //     label.style.visibility = "visible";
+  //   }
+  //   else {
+  //     label.style.visibility = "hidden";
+  //   }
+  // }
 
   return (
-    <div 
-    ref={elementRef}
-    style={{ position: "relative", width: "5em", height: "8em" }}>
-    <div id="discardParent" 
-    style={{ position: "relative",left: -100, top:-300, width: "5em", height: "8em" }}>
-      {/* discard history*/}
-        </div>
-      
+    <div
+      ref={elementRef}
+      style={{ position: "relative", width: "5em", height: "8em" }}
+    >
+      <div
+        id="discardParent"
+        style={{
+          position: "relative",
+          left: -100,
+          top: -300,
+          width: "5em",
+          height: "8em",
+        }}
+      >
+        {/* discard history*/}
+      </div>
 
       {/* Bottom cards illusion */}
       {hasCards && game.discardPile.length > 2 && (
         <>
-          <div 
-           style={{
-            position: 'absolute',
-            width: "5em",
-            height: "8em",
-            backgroundColor: "rgba(0,0,0,0.2)",
-            top: "0px",
-            left: "-4px",
-            borderRadius: "10px",
-          }} />
-          <div style={{
-            position: 'absolute',
-            width: "5em",
-            height: "8em",
-            backgroundColor: "rgba(0,0,0,0.1)",
-            top: "0px",
-            left: "-2px",
-            borderRadius: "10px",
-          }} />
+          <div
+            style={{
+              position: "absolute",
+              width: "5em",
+              height: "8em",
+              backgroundColor: "rgba(0,0,0,0.2)",
+              top: "0px",
+              left: "-4px",
+              borderRadius: "10px",
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              width: "5em",
+              height: "8em",
+              backgroundColor: "rgba(0,0,0,0.1)",
+              top: "0px",
+              left: "-2px",
+              borderRadius: "10px",
+            }}
+          />
         </>
       )}
 
@@ -383,221 +394,217 @@ export function Discardpile({ playerDevices }: Props) {
   );
 }
 
+// {/* discard history card 1*/}
+// <div className="discard"
+//     style={{
+//       visibility:"hidden",
+//       position: "absolute",
+//       left: -100,
+//       top: -300,
+//       width: "5em",
+//       height: "8em",
+//       zIndex: 100,
+//       transition: "all 2s ease-in-out",
+//     }}
+//   >
+//     <div
+//       style={{
+//         width: "5em",
+//         height: "8em",
+//         backgroundColor:
+//         game.discardPile[game.discardPile.length - 1] ? game.discardPile[game.discardPile.length - 1].color : "black",
+//         padding: "8px",
+//         borderRadius: "10px",
+//         display: "flex",
+//         position: "relative",
+//         boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)",
+//         border: "2px solid white",
+//       }}
+//     >
+//       <div
+//         style={{
+//           position: "absolute",
+//           top: "50%",
+//           left: "50%",
+//           transform: "translate(-50%, -50%)",
+//           color: "white",
+//           fontSize: "1.8em",
+//           fontWeight: "bold",
+//         }}
+//       >
+//         {game.discardPile[game.discardPile.length - 1] ? game.discardPile[game.discardPile.length - 1].value : "skip"}
+//         </div>
+//     </div>
+//   </div>
 
-      // {/* discard history card 1*/}
-      // <div className="discard"
-      //     style={{
-      //       visibility:"hidden",
-      //       position: "absolute",
-      //       left: -100,
-      //       top: -300,
-      //       width: "5em",
-      //       height: "8em",
-      //       zIndex: 100,
-      //       transition: "all 2s ease-in-out",
-      //     }}
-      //   >
-      //     <div
-      //       style={{
-      //         width: "5em",
-      //         height: "8em",
-      //         backgroundColor:
-      //         game.discardPile[game.discardPile.length - 1] ? game.discardPile[game.discardPile.length - 1].color : "black",
-      //         padding: "8px",
-      //         borderRadius: "10px",
-      //         display: "flex",
-      //         position: "relative",
-      //         boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)",
-      //         border: "2px solid white",
-      //       }}
-      //     >
-      //       <div
-      //         style={{
-      //           position: "absolute",
-      //           top: "50%",
-      //           left: "50%",
-      //           transform: "translate(-50%, -50%)",
-      //           color: "white",
-      //           fontSize: "1.8em",
-      //           fontWeight: "bold",
-      //         }}
-      //       >
-      //         {game.discardPile[game.discardPile.length - 1] ? game.discardPile[game.discardPile.length - 1].value : "skip"}
-      //         </div>
-      //     </div>
-      //   </div>
+// {/* discard history card 2*/}
+//   <div className="discard"
+//     style={{
+//       visibility:"hidden",
+//       position: "absolute",
+//       left: 0,
+//       top: -300,
+//       width: "5em",
+//       height: "8em",
+//       zIndex: 100,
+//       transition: "all 2s ease-in-out",
+//     }}
+//   >
+//     <div
+//       style={{
+//         width: "5em",
+//         height: "8em",
+//         backgroundColor:
+//         game.discardPile[game.discardPile.length - 2] ? game.discardPile[game.discardPile.length - 2].color : "black",
+//         padding: "8px",
+//         borderRadius: "10px",
+//         display: "flex",
+//         position: "relative",
+//         boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)",
+//         border: "2px solid white",
+//       }}
+//     >
+//       <div
+//         style={{
+//           position: "absolute",
+//           top: "50%",
+//           left: "50%",
+//           transform: "translate(-50%, -50%)",
+//           color: "white",
+//           fontSize: "1.8em",
+//           fontWeight: "bold",
+//         }}
+//       >
+//         {game.discardPile[game.discardPile.length - 2] ? game.discardPile[game.discardPile.length - 2].value : "skip"}
+//         </div>
+//     </div>
+//   </div>
 
-      // {/* discard history card 2*/}
-      //   <div className="discard"
-      //     style={{
-      //       visibility:"hidden",
-      //       position: "absolute",
-      //       left: 0,
-      //       top: -300,
-      //       width: "5em",
-      //       height: "8em",
-      //       zIndex: 100,
-      //       transition: "all 2s ease-in-out",
-      //     }}
-      //   >
-      //     <div
-      //       style={{
-      //         width: "5em",
-      //         height: "8em",
-      //         backgroundColor:
-      //         game.discardPile[game.discardPile.length - 2] ? game.discardPile[game.discardPile.length - 2].color : "black",
-      //         padding: "8px",
-      //         borderRadius: "10px",
-      //         display: "flex",
-      //         position: "relative",
-      //         boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)",
-      //         border: "2px solid white",
-      //       }}
-      //     >
-      //       <div
-      //         style={{
-      //           position: "absolute",
-      //           top: "50%",
-      //           left: "50%",
-      //           transform: "translate(-50%, -50%)",
-      //           color: "white",
-      //           fontSize: "1.8em",
-      //           fontWeight: "bold",
-      //         }}
-      //       >
-      //         {game.discardPile[game.discardPile.length - 2] ? game.discardPile[game.discardPile.length - 2].value : "skip"}
-      //         </div>
-      //     </div>
-      //   </div>
+// {/* discard history card 3*/}
+//   <div className="discard"
+//     style={{
+//       visibility:"hidden",
+//       position: "absolute",
+//       left: 100,
+//       top: -300,
+//       width: "5em",
+//       height: "8em",
+//       zIndex: 100,
+//       transition: "all 2s ease-in-out",
+//     }}
+//   >
+//     <div
+//       style={{
+//         width: "5em",
+//         height: "8em",
+//         backgroundColor:
+//         game.discardPile[game.discardPile.length - 3] ? game.discardPile[game.discardPile.length - 3].color : "black",
+//         padding: "8px",
+//         borderRadius: "10px",
+//         display: "flex",
+//         position: "relative",
+//         boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)",
+//         border: "2px solid white",
+//       }}
+//     >
+//       <div
+//         style={{
+//           position: "absolute",
+//           top: "50%",
+//           left: "50%",
+//           transform: "translate(-50%, -50%)",
+//           color: "white",
+//           fontSize: "1.8em",
+//           fontWeight: "bold",
+//         }}
+//       >
+//         {game.discardPile[game.discardPile.length - 3] ? game.discardPile[game.discardPile.length - 3].value : "skip"}
+//         </div>
+//     </div>
+//   </div>
 
+// {/* discard history card 4*/}
+//   <div className="discard"
+//     style={{
+//       visibility:"hidden",
+//       position: "absolute",
+//       left: 200,
+//       top: -300,
+//       width: "5em",
+//       height: "8em",
+//       zIndex: 100,
+//       transition: "all 2s ease-in-out",
+//     }}
+//   >
+//     <div
+//       style={{
+//         width: "5em",
+//         height: "8em",
+//         backgroundColor:
+//         game.discardPile[game.discardPile.length - 4] ? game.discardPile[game.discardPile.length - 4].color : "black",
+//         padding: "8px",
+//         borderRadius: "10px",
+//         display: "flex",
+//         position: "relative",
+//         boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)",
+//         border: "2px solid white",
+//       }}
+//     >
+//       <div
+//         style={{
+//           position: "absolute",
+//           top: "50%",
+//           left: "50%",
+//           transform: "translate(-50%, -50%)",
+//           color: "white",
+//           fontSize: "1.8em",
+//           fontWeight: "bold",
+//         }}
+//       >
+//         {game.discardPile[game.discardPile.length - 4] ? game.discardPile[game.discardPile.length - 4].value : "skip"}
+//         </div>
+//     </div>
+//   </div>
 
-      // {/* discard history card 3*/}
-      //   <div className="discard"
-      //     style={{
-      //       visibility:"hidden",
-      //       position: "absolute",
-      //       left: 100,
-      //       top: -300,
-      //       width: "5em",
-      //       height: "8em",
-      //       zIndex: 100,
-      //       transition: "all 2s ease-in-out",
-      //     }}
-      //   >
-      //     <div
-      //       style={{
-      //         width: "5em",
-      //         height: "8em",
-      //         backgroundColor:
-      //         game.discardPile[game.discardPile.length - 3] ? game.discardPile[game.discardPile.length - 3].color : "black",
-      //         padding: "8px",
-      //         borderRadius: "10px",
-      //         display: "flex",
-      //         position: "relative",
-      //         boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)",
-      //         border: "2px solid white",
-      //       }}
-      //     >
-      //       <div
-      //         style={{
-      //           position: "absolute",
-      //           top: "50%",
-      //           left: "50%",
-      //           transform: "translate(-50%, -50%)",
-      //           color: "white",
-      //           fontSize: "1.8em",
-      //           fontWeight: "bold",
-      //         }}
-      //       >
-      //         {game.discardPile[game.discardPile.length - 3] ? game.discardPile[game.discardPile.length - 3].value : "skip"}
-      //         </div>
-      //     </div>
-      //   </div>
-
-
-      // {/* discard history card 4*/}
-      //   <div className="discard"
-      //     style={{
-      //       visibility:"hidden",
-      //       position: "absolute",
-      //       left: 200,
-      //       top: -300,
-      //       width: "5em",
-      //       height: "8em",
-      //       zIndex: 100,
-      //       transition: "all 2s ease-in-out",
-      //     }}
-      //   >
-      //     <div
-      //       style={{
-      //         width: "5em",
-      //         height: "8em",
-      //         backgroundColor:
-      //         game.discardPile[game.discardPile.length - 4] ? game.discardPile[game.discardPile.length - 4].color : "black",
-      //         padding: "8px",
-      //         borderRadius: "10px",
-      //         display: "flex",
-      //         position: "relative",
-      //         boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)",
-      //         border: "2px solid white",
-      //       }}
-      //     >
-      //       <div
-      //         style={{
-      //           position: "absolute",
-      //           top: "50%",
-      //           left: "50%",
-      //           transform: "translate(-50%, -50%)",
-      //           color: "white",
-      //           fontSize: "1.8em",
-      //           fontWeight: "bold",
-      //         }}
-      //       >
-      //         {game.discardPile[game.discardPile.length - 4] ? game.discardPile[game.discardPile.length - 4].value : "skip"}
-      //         </div>
-      //     </div>
-      //   </div>
-
-
-      // {/* discard history card 5*/}
-      //   <div className="discard"
-      //     style={{
-      //       visibility:"hidden",
-      //       position: "absolute",
-      //       left: 300,
-      //       top: -300,
-      //       width: "5em",
-      //       height: "8em",
-      //       zIndex: 100,
-      //       transition: "all 2s ease-in-out",
-      //     }}
-      //   >
-      //     <div
-      //       style={{
-      //         width: "5em",
-      //         height: "8em",
-      //         backgroundColor:
-      //           game.discardPile[game.discardPile.length - 5] ? game.discardPile[game.discardPile.length - 5].color : "black",
-      //         padding: "8px",
-      //         borderRadius: "10px",
-      //         display: "flex",
-      //         position: "relative",
-      //         boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)",
-      //         border: "2px solid white",
-      //       }}
-      //     >
-      //       <div
-      //         style={{
-      //           position: "absolute",
-      //           top: "50%",
-      //           left: "50%",
-      //           transform: "translate(-50%, -50%)",
-      //           color: "white",
-      //           fontSize: "1.8em",
-      //           fontWeight: "bold",
-      //         }}
-      //       >
-      //         {game.discardPile[game.discardPile.length - 5] ? game.discardPile[game.discardPile.length - 5].value : "skip"}
-      //       </div>
-      //     </div>
-      //   </div>*\}
+// {/* discard history card 5*/}
+//   <div className="discard"
+//     style={{
+//       visibility:"hidden",
+//       position: "absolute",
+//       left: 300,
+//       top: -300,
+//       width: "5em",
+//       height: "8em",
+//       zIndex: 100,
+//       transition: "all 2s ease-in-out",
+//     }}
+//   >
+//     <div
+//       style={{
+//         width: "5em",
+//         height: "8em",
+//         backgroundColor:
+//           game.discardPile[game.discardPile.length - 5] ? game.discardPile[game.discardPile.length - 5].color : "black",
+//         padding: "8px",
+//         borderRadius: "10px",
+//         display: "flex",
+//         position: "relative",
+//         boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)",
+//         border: "2px solid white",
+//       }}
+//     >
+//       <div
+//         style={{
+//           position: "absolute",
+//           top: "50%",
+//           left: "50%",
+//           transform: "translate(-50%, -50%)",
+//           color: "white",
+//           fontSize: "1.8em",
+//           fontWeight: "bold",
+//         }}
+//       >
+//         {game.discardPile[game.discardPile.length - 5] ? game.discardPile[game.discardPile.length - 5].value : "skip"}
+//       </div>
+//     </div>
+//   </div>*\}
