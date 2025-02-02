@@ -1,55 +1,39 @@
-// import { GameContext } from "../App";
+import { getState } from "playroomkit";
+import { Card } from "./game";
+import { DrawPileCard } from "./DrawPileCard";
+import { PlayerDevice } from "./Device";
 
-import { getState, setState } from "playroomkit";
-import { Game, Player } from "./game";
-import { useState } from "react";
+interface Props {
+  playerDevices: PlayerDevice[];
+}
 
-export function Drawpile() {
-  // const { currentGame, setCurrentGame } = useContext(GameContext);
-  //  const { counter, game, trackingData, counterIncremented, changeName } =
-  //     useGameEngine();
-
-  const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
+export function Drawpile({ playerDevices }: Props) {
+  const game = getState("game");
 
   return (
-    <ul>
-      <li>
-        <div
-          style={{
-            width: "5em",
-            backgroundColor: "grey",
-            padding: "10px",
-            borderRadius: "5px",
-            color: "#fff",
-          }}
-          onClick={() => {
-            if (getState("game")) {
-              let gameInstance = new Game([""]);
-              gameInstance.fromGameState(getState("game"));
-              gameInstance.drawCards(currentPlayerIndex, 1);
-              setState("game", gameInstance.toGameState(), true);
-            }
-          }}
-        >
-          <h1>Deck</h1>
-        </div>
-      </li>
-      {getState("game")
-        ? getState("game").players.map(
-            (player: Player, playerIndex: number) => {
-              //console.log(player);
-              return (
-                <button
-                  onClick={() => {
-                    setCurrentPlayerIndex(playerIndex);
-                  }}
-                >
-                  player: {player.name}
-                </button>
-              );
-            }
-          )
-        : "no Game"}
-    </ul>
+    <div
+      style={{
+        width: "5em",
+        height: "8em",
+        backgroundColor: "#008B8B", // Deep Cyan
+        borderRadius: "10px",
+        display: "flex",
+        position: "relative",
+        boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)",
+        cursor: "pointer",
+        touchAction: "none",
+        zIndex: 2,
+      }}
+    >
+      {game.deck.map((_card: Card, index: number) => {
+        console.log(game.deck);
+        return (
+          <DrawPileCard
+            index={index}
+            playerDevices={playerDevices}
+          ></DrawPileCard>
+        );
+      })}
+    </div>
   );
 }

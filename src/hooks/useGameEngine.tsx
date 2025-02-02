@@ -1,7 +1,6 @@
 import { useMultiplayerState, usePlayersList } from "playroomkit";
 import React from "react";
 import { Game, GameState } from "../Game/game";
-import { Device, DeviceState } from "../trackingTest/Device";
 
 const GameEngineContext = React.createContext<any>(null);
 
@@ -13,20 +12,20 @@ export const GameEngineProvider = ({ children }: any) => {
   const initialGame = new Game(playerNames);
   const initialGameState: GameState = initialGame.toGameState();
 
-  const initialDevices: Device[] = playersList.map((_player, index) => ({
-    location: { x: 0, y: 0 },
-    index: index,
-  }));
+  // const initialDevices: Device[] = playersList.map((_player, index) => ({
+  //   location: { x: 0, y: 0, accuracy: 100 },
+  //   index: index,
+  // }));
 
-  const initialDeviceState: DeviceState = { devices: initialDevices };
+  // const initialDeviceState: DeviceState = { devices: initialDevices };
 
   // multiplayer states
   const [game] = useMultiplayerState("game", initialGameState);
-  const [devices] = useMultiplayerState("devices", initialDeviceState);
+  // const [devices] = useMultiplayerState("devices", initialDeviceState);
 
   const gameState = {
     game,
-    devices,
+    // devices,
   };
 
   return (

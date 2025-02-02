@@ -18,7 +18,7 @@ export function PlayerStartPage({ playerIndex: playerIndex }: Props) {
       >
         {/* only show playerhand, if game is started, gamestate exists and game has more than 0 players*/}
         {getState("game") && getState("game").players.length > 0 ? (
-          <li>
+          <li style={{listStyleType: "none"}}>
             <Playerhand playerIndex={playerIndex}></Playerhand>
           </li>
         ) : (

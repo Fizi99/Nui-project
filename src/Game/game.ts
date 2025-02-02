@@ -222,15 +222,15 @@
 //     });
 //   }
 // }
-
+import { arrayMoveImmutable } from "array-move";
 // Data interfaces
 type Color = "red" | "yellow" | "green" | "blue" | "black";
-type Value = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "skip" | "reverse" | "draw2" | "wild" | "wildDraw4";
+type Value = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "skip" | "reverse" | "draw2" | "wild" | "wildDraw4"| "Random";
 
 export interface Card{
   color: Color,
   value: Value,
-
+  playedByIndex: number | null,
 }
 
 export interface Deck{
@@ -309,16 +309,22 @@ export class Game {
     // Add number and action cards
     colors.forEach((color) => {
       values.forEach((value) => {
-        this.deck.push({color: color, value: value});
-        if (value !== "0") this.deck.push({color: color, value: value}); // Two of each except 0
+        this.deck.push({color: color, value: value, playedByIndex: null});
+        if (value !== "0") this.deck.push({color: color, value: value, playedByIndex: null}); // Two of each except 0
       });
     });
 
     // Add wild cards
     for (let i = 0; i < 4; i++) {
-      this.deck.push({color: "black", value: "wild"});
-      this.deck.push({color: "black", value: "wildDraw4"});
+      this.deck.push({color: "black", value: "wild", playedByIndex: null});
+      this.deck.push({color: "black", value: "wildDraw4", playedByIndex: null});
     }
+
+
+    for (let i = 0; i < 4; i++) {
+      this.deck.push({color: "black", value: "Random", playedByIndex: null});
+    }
+
   }
 
   private shuffle() {
@@ -341,6 +347,23 @@ export class Game {
     }
 
     public playCard(playerIndex: number, handIndex: number){
-      this.discardPile.push(...this.players[playerIndex].hand.splice(handIndex, 1));
+      const card :Card = {color: this.players[playerIndex].hand[handIndex].color, value: this.players[playerIndex].hand[handIndex].value, playedByIndex: playerIndex}
+    
+      if (card.value === "Random") {
+          const colors: Color[] = ["red", "yellow", "green", "blue"];
+          const values: Value[] = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "skip", "reverse", "draw2"];
+          
+          card.color = colors[Math.floor(Math.random() * colors.length)];
+          card.value = values[Math.floor(Math.random() * values.length)];
+      }
+      
+      this.currentColor = card.color;
+      this.players[playerIndex].hand.splice(handIndex, 1)
+      this.discardPile.push(card);  
     }
+
+    public sortPlayershand(playerIndex: number, curIndex: number, toIndex: number){
+      const newSortHand = arrayMoveImmutable(this.players[playerIndex].hand, curIndex, toIndex);
+      this.players[playerIndex].hand = newSortHand;
   }
+}
