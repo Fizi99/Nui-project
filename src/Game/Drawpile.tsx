@@ -15,7 +15,9 @@ export function Drawpile({ playerDevices }: Props) {
       style={{
         width: "5em",
         height: "8em",
-        backgroundColor: "#008B8B", // Deep Cyan
+        background: "linear-gradient(-45deg, #008B8B, #008B8B, rgba(0,0,0,0.2))",
+        backgroundSize: "400% 400%",
+        animation: "gradient 15s ease infinite",
         borderRadius: "10px",
         display: "flex",
         position: "relative",
@@ -26,7 +28,6 @@ export function Drawpile({ playerDevices }: Props) {
       }}
     >
       {game.deck.map((_card: Card, index: number) => {
-        console.log(game.deck);
         return (
           <DrawPileCard
             index={index}

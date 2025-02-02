@@ -67,6 +67,7 @@ export function DeviceRegisterCard({ index, registerDevice }: Props) {
         <img
           src={usePlayersList(true)[index].getProfile().photo}
           style={{ width: "100%" }}
+          draggable="false"
         ></img>
       </div>
     </animated.div>

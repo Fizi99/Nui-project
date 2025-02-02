@@ -12,12 +12,13 @@ export function PlayerIcon({ left, top, index }: Props) {
       <img
         src={usePlayersList(true)[index].getProfile().photo}
         style={{
-          width: "3em",
-          height: "3em",
+          width: "5em",
+          height: "5em",
           left: left + "px",
           top: top + "px",
           position: "absolute",
         }}
+        draggable="false"
       ></img>
     </div>
   );

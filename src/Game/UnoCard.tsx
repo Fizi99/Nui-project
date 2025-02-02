@@ -8,9 +8,10 @@ import { Card, Game } from "./game";
 interface Props {
   handIndex: number;
   playerIndex: number;
+  cardDrawn: boolean;
 }
 
-export function UnoCard({ handIndex, playerIndex }: Props) {
+export function UnoCard({ handIndex, playerIndex, cardDrawn }: Props) {
   // const { currentGame, setCurrentGame } = useContext(GameContext);
   // const { counter, game, trackingData, counterIncremented, changeName } =
   //   useGameEngine();
@@ -22,11 +23,10 @@ export function UnoCard({ handIndex, playerIndex }: Props) {
   // const [cardPosition, setCardPosition] = useState({ x: 0, y: 0 });
 
   const PLAY_LINE_Y = -window.innerHeight * 0.3; // 30vh in pixels
-  const PLAY_THRESHOLD = window.innerHeight * 0.2; // 20% of screen height
 
   // Track card play state and drag information
   const [isDragging, setIsDragging] = useState(false);
-  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  // const [setDragStart] = useState({ x: 0, y: 0 });
   const [hasPlayedCard, setHasPlayedCard] = useState(false);
 
   // Set up spring animation
@@ -47,7 +47,7 @@ export function UnoCard({ handIndex, playerIndex }: Props) {
       // Track the start of dragging
       if (first) {
         setIsDragging(true);
-        setDragStart({ x: mx, y: my });
+        // setDragStart({ x: mx, y: my });
       }
 
       // During drag
@@ -64,7 +64,9 @@ export function UnoCard({ handIndex, playerIndex }: Props) {
         });
 
         // Check if card has crossed play line with sufficient drag
-        if (my < PLAY_LINE_Y && Math.abs(my - dragStart.y) > PLAY_THRESHOLD) {
+        if (
+          my < PLAY_LINE_Y /*&& Math.abs(my - dragStart.y) > PLAY_THRESHOLD*/
+        ) {
           // Play the card
           const gameState = getState("game");
           if (gameState != null) {
@@ -110,10 +112,25 @@ export function UnoCard({ handIndex, playerIndex }: Props) {
       }
     },
     {
-      bounds: { top: -window.innerHeight },
+      //bounds: { top: -window.innerHeight },
       rubberband: false, // Disable rubberband effect
     }
   );
+
+  ////////////////////////////////////ANTON///////////////////////////////
+  if (
+    cardDrawn &&
+    handIndex === getState("game").players[playerIndex].hand.length - 1
+  ) {
+    api.start({
+      from: {
+        x: -100,
+        y: -100,
+      },
+      to: { x: 0, y: 0 },
+    });
+  }
+  ////////////////////////////////////ANTON///////////////////////////////
 
   return (
     <>
@@ -130,31 +147,20 @@ export function UnoCard({ handIndex, playerIndex }: Props) {
           zIndex: 1000,
           pointerEvents: "none",
         }}
-      >
-        <div
-          style={{
-            position: "absolute",
-            left: "10px",
-            top: "-25px",
-            color: "white",
-            fontSize: "0.9em",
-          }}
-        >
-          Drop to play
-        </div>
-      </div>
+      />
       <animated.div
         {...bind()}
         style={{
           width: "5em",
           height: "8em",
-          backgroundColor: card.color,
+          background: `linear-gradient(-45deg, ${card.color}, ${card.color}, rgba(0,0,0,0.2))`,
+          animation: "gradient 15s ease infinite",
           padding: "8px",
           borderRadius: "10px",
           display: "flex",
           position: "relative",
           boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)",
-          border: "2px solid white",
+          border: "3px solid white",
           cursor: "pointer",
           touchAction: "none",
           x,
@@ -168,9 +174,11 @@ export function UnoCard({ handIndex, playerIndex }: Props) {
             position: "absolute",
             top: "5px",
             left: "5px",
-            color: "white",
+            color: "black",
             fontSize: isNaN(Number(card.value)) ? "0.6em" : "0.9em",
             fontWeight: "bold",
+            textShadow:
+              "-1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white",
           }}
         >
           {card.value}
@@ -183,9 +191,11 @@ export function UnoCard({ handIndex, playerIndex }: Props) {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            color: "white",
+            color: "black",
             fontSize: isNaN(Number(card.value)) ? "1.2em" : "1.8em",
             fontWeight: "bold",
+            textShadow:
+              "-1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white",
           }}
         >
           {card.value}
@@ -197,10 +207,12 @@ export function UnoCard({ handIndex, playerIndex }: Props) {
             position: "absolute",
             bottom: "5px",
             right: "5px",
-            color: "white",
+            color: "black",
             fontSize: isNaN(Number(card.value)) ? "0.6em" : "0.9em",
             fontWeight: "bold",
             transform: "rotate(180deg)",
+            textShadow:
+              "-1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white",
           }}
         >
           {card.value}

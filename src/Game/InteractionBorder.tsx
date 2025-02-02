@@ -5,6 +5,7 @@ interface Props {
   right?: string;
   top?: string;
   bottom?: string;
+  arrow?: boolean;
 }
 
 export function InteractionBorder({
@@ -15,10 +16,19 @@ export function InteractionBorder({
   bottom,
   right,
 }: Props) {
+  let direction: string = "bottom";
+  if (top != null) {
+    direction = "top";
+  } else if (left != null) {
+    direction = "left";
+  } else if (right != null) {
+    direction = "right";
+  }
+
   return (
     <div
       style={{
-        background: "lightgray",
+        background: `linear-gradient(to ${direction}, #fff0 0%, #000f 100%)`,
         width: width,
         height: height,
         position: "absolute",
@@ -26,6 +36,7 @@ export function InteractionBorder({
         top: top ? top : "",
         right: right ? right : "",
         bottom: bottom ? bottom : "",
+        display: "flex",
       }}
     ></div>
   );

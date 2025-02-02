@@ -3,6 +3,7 @@ import { useGameEngine } from "../hooks/useGameEngine";
 import { DiscardPileCard } from "./DiscardpileCard";
 import { PlayerDevice } from "./Device";
 import { Card } from "./game";
+import { getState } from "playroomkit";
 
 interface Props {
   playerDevices: PlayerDevice[];
@@ -11,6 +12,7 @@ interface Props {
 export function Discardpile({ playerDevices }: Props) {
   const { game } = useGameEngine();
   const hasCards = game && game.discardPile.length > 1;
+  const maxDiscardHistory = 5;
 
   // const [isSecondCardVisible, setIsSecondCardVisible] = useState(false);
   // const [isNewCardReady, setIsNewCardReady] = useState(false);
@@ -33,141 +35,263 @@ export function Discardpile({ playerDevices }: Props) {
     }
   }, []);
 
-  // Later in your component, you can access getBoundingClientRect
+  useEffect(() => {
+    const checkBox = document.getElementById(
+      "checkBoxDiscard"
+    ) as HTMLInputElement;
+    hideDiscardHistory();
+    if (checkBox.checked) {
+      showDiscardHistory();
+    } else {
+      hideDiscardHistory();
+    }
+  }, [getState("game").discardPile.length]);
 
-  // const [lastDiscardPileLength, setLastDiscardPileLength] = useState(
-  //   game?.discardPile.length || 0
-  // );
-  // const [wasCardJustPlayed, setWasCardJustPlayed] = useState(false);
-  // const [isSecondCardAnimationComplete, setIsSecondCardAnimationComplete] =
-  //   useState(false);
+  function hideDiscardHistory() {
+    const discardParent = document.getElementById("discardParent")!;
 
-  // // Store the last top card separately
-  // const [lastTopCard, setLastTopCard] = useState(
-  //   game?.discardPile.length > 0
-  //     ? game.discardPile[game.discardPile.length - 1]
-  //     : null
-  // );
+    while (discardParent.childNodes.length > 0) {
+      discardParent.removeChild(
+        discardParent.childNodes[discardParent.childNodes.length - 1]
+      );
+    }
+  }
 
-  // // Add a new state to store the base pile color
-  // const [basePileColor, setBasePileColor] = useState(
-  //   game?.discardPile.length > 1 ? game.discardPile[0].color : "black"
-  // );
+  function showDiscardHistory() {
+    if (game.discardPile.length <= maxDiscardHistory) {
+      for (let i = 0; i < game.discardPile.length; i++) {
+        let leftPosition: number = i;
+        leftPosition = leftPosition * 100 - 400;
+        const discardParent = document.getElementById("discardParent")!;
+        const discardStepParentDiv = document.createElement("div");
+        discardStepParentDiv.style.position = "absolute";
+        discardStepParentDiv.style.left = String(leftPosition) + "px";
+        discardStepParentDiv.style.top = "-200px";
+        const discardDiv = document.createElement("div");
+        discardDiv.style.position = "relative";
+        discardDiv.style.top = "-300";
+        discardDiv.style.left = "0";
+        discardDiv.style.width = "5em";
+        discardDiv.style.height = "8em";
+        (discardDiv.style.background =
+          game.discardPile[i].value === "shuffle"
+            ? `linear-gradient(-45deg, blue, yellow, red, green, rgba(0,0,0,1))`
+            : `linear-gradient(-45deg, ${
+                game.discardPile[i] ? game.discardPile[i].color : `black`
+              },${
+                game.discardPile[i] ? game.discardPile[i].color : `black`
+              },rgba(0,0,0,1))`),
+          (discardDiv.style.padding = "8px");
+        discardDiv.style.borderRadius = "10px";
+        discardDiv.style.display = "flex";
+        discardDiv.style.boxShadow = "2px 2px 5px rgba(0, 0, 0, 0.2)";
+        discardDiv.style.border = "3px solid white";
+        discardDiv.style.cursor = "pointer";
+        discardDiv.style.touchAction = "none";
+        const cardValueDivTop = document.createElement("div");
+        cardValueDivTop.style.position = "absolute";
+        cardValueDivTop.style.top = "5px";
+        cardValueDivTop.style.left = "5px";
+        cardValueDivTop.style.color = "black";
+        cardValueDivTop.style.fontSize = isNaN(
+          Number(game.discardPile[i].value)
+        )
+          ? "0.6em"
+          : "0.9em";
+        cardValueDivTop.style.fontWeight = "bold";
+        cardValueDivTop.style.textShadow =
+          "-1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white";
+        cardValueDivTop.textContent = game.discardPile[i]
+          ? game.discardPile[i].value
+          : "skip";
+        discardDiv.appendChild(cardValueDivTop);
+        const cardValueDiv = document.createElement("div");
+        cardValueDiv.style.position = "absolute";
+        cardValueDiv.style.top = "50%";
+        cardValueDiv.style.left = "50%";
+        cardValueDiv.style.transform = "translate(-50%, -50%)";
+        cardValueDiv.style.color = "black";
+        cardValueDiv.style.fontSize = isNaN(Number(game.discardPile[i].value))
+          ? "1.2em"
+          : "1.8em";
+        cardValueDiv.style.fontWeight = "bold";
+        (cardValueDiv.style.textShadow =
+          "-1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white"),
+          (cardValueDiv.textContent = game.discardPile[i]
+            ? game.discardPile[i].value
+            : "skip");
+        discardDiv.appendChild(cardValueDiv);
+        const cardValueDivBottom = document.createElement("div");
+        cardValueDivBottom.style.position = "absolute";
+        cardValueDivBottom.style.bottom = "5px";
+        cardValueDivBottom.style.right = "5px";
+        cardValueDivBottom.style.color = "black";
+        cardValueDivBottom.style.fontWeight = "bold";
+        cardValueDivBottom.style.fontSize = isNaN(
+          Number(game.discardPile[i].value)
+        )
+          ? "0.6em"
+          : "0.9em";
+        cardValueDivBottom.style.transform = "rotate(180deg)";
+        (cardValueDivBottom.style.textShadow =
+          "-1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white"),
+          (cardValueDivBottom.textContent = game.discardPile[i]
+            ? game.discardPile[i].value
+            : "skip");
+        discardDiv.appendChild(cardValueDivBottom);
+        const playedByDiv = document.createElement("div");
+        playedByDiv.innerText =
+          game.discardPile[i].playedByIndex != null
+            ? "Zug " +
+              i +
+              ": " +
+              game.players[game.discardPile[i].playedByIndex].name
+            : "Zug " + i + ": Start";
+        playedByDiv.style.position = "relative";
+        playedByDiv.style.top = "50%";
+        playedByDiv.style.left = "50%";
+        playedByDiv.style.transform = "translate(-50%, -100%)";
+        playedByDiv.style.color = "white";
+        playedByDiv.style.fontSize = "0.8em";
+        playedByDiv.style.fontWeight = "bold";
+        discardDiv.appendChild(playedByDiv);
+        discardStepParentDiv.append(discardDiv);
+        discardParent.appendChild(discardStepParentDiv);
+      }
+    } else {
+      for (let i = 0; i < maxDiscardHistory; i++) {
+        let currentCardIndex = game.discardPile.length - maxDiscardHistory + i;
 
-  // useEffect(() => {
-  //   if (game && game.discardPile.length > 0) {
-  //     // Always use the first card's color as the base pile color
-  //     if (game.discardPile.length === 1) {
-  //       setBasePileColor(game.discardPile[0].color);
-  //     }
-  //   }
-  // }, [game?.discardPile.length]);
-
-  // useEffect(() => {
-  //   if (game?.discardPile.length !== lastDiscardPileLength) {
-  //     setLastDiscardPileLength(game?.discardPile.length || 0);
-  //   }
-  // }, [game?.discardPile.length]);
-
-  // useEffect(() => {
-  //   if (game && game.discardPile.length > 1) {
-  //     const currentPlayer = game.players[game.currentPlayerIndex];
-  //     const lastDiscardedCard = game.discardPile[game.discardPile.length - 1];
-
-  //     const isCardPlayed = !currentPlayer.hand.some(
-  //       (card) =>
-  //         card.color === lastDiscardedCard.color &&
-  //         card.value === lastDiscardedCard.value
-  //     );
-
-  //     if (isCardPlayed) {
-  //       setWasCardJustPlayed(true);
-  //       setIsSecondCardAnimationComplete(false);
-  //     }
-  //   }
-  // }, [game?.discardPile.length]);
-
-  // useEffect(() => {
-  //   if (wasCardJustPlayed) {
-  //     setIsNewCardReady(false);
-  //     setIsSecondCardVisible(true);
-
-  //     setSecondCardPosition({ x: 500, y: 800 });
-
-  //     const animationTimer = setTimeout(() => {
-  //       setSecondCardPosition({
-  //         x: 100 + (game.discardPile.length - 1) * -2,
-  //         y: 200 - (game.discardPile.length - 1) * 5,
-  //       });
-  //     }, 50);
-
-  //     const cleanupTimer = setTimeout(() => {
-  //       setIsSecondCardVisible(false);
-  //       setIsSecondCardAnimationComplete(true);
-  //     }, 2000);
-
-  //     return () => {
-  //       clearTimeout(animationTimer);
-  //       clearTimeout(cleanupTimer);
-  //     };
-  //   }
-  // }, [wasCardJustPlayed, game]);
-
-  // useEffect(() => {
-  //   if (wasCardJustPlayed && isSecondCardAnimationComplete) {
-  //     const newCardTimer = setTimeout(() => {
-  //       setIsNewCardReady(true);
-  //       setWasCardJustPlayed(false);
-  //       setIsSecondCardAnimationComplete(false);
-
-  //       // Update lastTopCard AFTER the animation completes
-  //       if (game?.discardPile.length > 0) {
-  //         setLastTopCard(game.discardPile[game.discardPile.length - 1]);
-  //       }
-  //     }, 500);
-
-  //     return () => {
-  //       clearTimeout(newCardTimer);
-  //     };
-  //   }
-  // }, [wasCardJustPlayed, isSecondCardAnimationComplete]);
-
-  // function showDiscardHistory() {
-  //   if (game?.discardPile.length >= 5) {
-  //     for (let i = 0; i < 5; i++) {
-  //       game?.discardPile[i]
-  //     }
-  //   } else {
-  //     for (let i = 0; i < game?.discardPile.length; i++) {
-
-  //     }
-  //   }
-  //   const label = document.getElementById("iSneaky")!;
-  //   if (label.style.visibility == "hidden") {
-  //     label.style.visibility = "visible";
-  //   }
-  //   else {
-  //     label.style.visibility = "hidden";
-  //   }
-  // }
-
+        let leftPosition: number = i;
+        leftPosition = leftPosition * 100 - 400;
+        const discardParent = document.getElementById("discardParent")!;
+        const discardStepParentDiv = document.createElement("div");
+        discardStepParentDiv.style.position = "absolute";
+        discardStepParentDiv.style.left = String(leftPosition) + "px";
+        discardStepParentDiv.style.top = "-200px";
+        const discardDiv = document.createElement("div");
+        discardDiv.style.position = "relative";
+        discardDiv.style.top = "-300";
+        discardDiv.style.left = "0";
+        discardDiv.style.width = "5em";
+        discardDiv.style.height = "8em";
+        (discardDiv.style.background =
+          game.discardPile[currentCardIndex].value === "shuffle"
+            ? `linear-gradient(-45deg, blue, yellow, red, green, rgba(0,0,0,1))`
+            : `linear-gradient(-45deg, ${
+                game.discardPile[currentCardIndex]
+                  ? game.discardPile[currentCardIndex].color
+                  : `black`
+              },${
+                game.discardPile[currentCardIndex]
+                  ? game.discardPile[currentCardIndex].color
+                  : `black`
+              },rgba(0,0,0,1))`),
+          (discardDiv.style.padding = "8px");
+        discardDiv.style.borderRadius = "10px";
+        discardDiv.style.display = "flex";
+        discardDiv.style.boxShadow = "2px 2px 5px rgba(0, 0, 0, 0.2)";
+        discardDiv.style.border = "3px solid white";
+        discardDiv.style.cursor = "pointer";
+        discardDiv.style.touchAction = "none";
+        const cardValueDivTop = document.createElement("div");
+        cardValueDivTop.style.position = "absolute";
+        cardValueDivTop.style.top = "5px";
+        cardValueDivTop.style.left = "5px";
+        cardValueDivTop.style.color = "black";
+        cardValueDivTop.style.fontSize = isNaN(
+          Number(game.discardPile[currentCardIndex].value)
+        )
+          ? "0.6em"
+          : "0.9em";
+        cardValueDivTop.style.fontWeight = "bold";
+        cardValueDivTop.style.textShadow =
+          "-1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white";
+        cardValueDivTop.textContent = game.discardPile[currentCardIndex]
+          ? game.discardPile[currentCardIndex].value
+          : "skip";
+        discardDiv.appendChild(cardValueDivTop);
+        const cardValueDiv = document.createElement("div");
+        cardValueDiv.style.position = "absolute";
+        cardValueDiv.style.top = "50%";
+        cardValueDiv.style.left = "50%";
+        cardValueDiv.style.transform = "translate(-50%, -50%)";
+        cardValueDiv.style.color = "black";
+        cardValueDiv.style.fontSize = isNaN(
+          Number(game.discardPile[currentCardIndex].value)
+        )
+          ? "1.2em"
+          : "1.8em";
+        cardValueDiv.style.fontWeight = "bold";
+        (cardValueDiv.style.textShadow =
+          "-1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white"),
+          (cardValueDiv.textContent = game.discardPile[currentCardIndex]
+            ? game.discardPile[currentCardIndex].value
+            : "skip");
+        discardDiv.appendChild(cardValueDiv);
+        const cardValueDivBottom = document.createElement("div");
+        cardValueDivBottom.style.position = "absolute";
+        cardValueDivBottom.style.bottom = "5px";
+        cardValueDivBottom.style.right = "5px";
+        cardValueDivBottom.style.color = "black";
+        cardValueDivBottom.style.fontWeight = "bold";
+        cardValueDivBottom.style.fontSize = isNaN(
+          Number(game.discardPile[currentCardIndex].value)
+        )
+          ? "0.6em"
+          : "0.9em";
+        cardValueDivBottom.style.transform = "rotate(180deg)";
+        (cardValueDivBottom.style.textShadow =
+          "-1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white"),
+          (cardValueDivBottom.textContent = game.discardPile[currentCardIndex]
+            ? game.discardPile[currentCardIndex].value
+            : "skip");
+        discardDiv.appendChild(cardValueDivBottom);
+        const playedByDiv = document.createElement("div");
+        playedByDiv.innerText =
+          game.discardPile[currentCardIndex].playedByIndex != null
+            ? "Zug " +
+              currentCardIndex +
+              ": " +
+              game.players[game.discardPile[currentCardIndex].playedByIndex]
+                .name
+            : "Zug " + i + ": Start";
+        playedByDiv.style.position = "relative";
+        playedByDiv.style.top = "50%";
+        playedByDiv.style.left = "50%";
+        playedByDiv.style.transform = "translate(-50%, -100%)";
+        playedByDiv.style.color = "white";
+        playedByDiv.style.fontSize = "0.8em";
+        playedByDiv.style.fontWeight = "bold";
+        discardDiv.appendChild(playedByDiv);
+        discardStepParentDiv.append(discardDiv);
+        discardParent.appendChild(discardStepParentDiv);
+      }
+    }
+  }
   return (
     <div
       ref={elementRef}
       style={{ position: "relative", width: "5em", height: "8em" }}
     >
-      <div
-        id="discardParent"
-        style={{
-          position: "relative",
-          left: -100,
-          top: -300,
-          width: "5em",
-          height: "8em",
-        }}
-      >
-        {/* discard history*/}
+      <div style={{ position: "relative", top: "210px", left: "-20px" }}>
+        Historie:
+        <input
+          id="checkBoxDiscard"
+          type="checkbox"
+          onChange={() => {
+            const checkBox = document.getElementById(
+              "checkBoxDiscard"
+            ) as HTMLInputElement;
+            if (checkBox.checked) {
+              showDiscardHistory();
+            } else {
+              hideDiscardHistory();
+            }
+          }}
+        ></input>
       </div>
+      <div id="discardParent">{/* discard history*/}</div>
 
       {/* Bottom cards illusion */}
       {hasCards && game.discardPile.length > 2 && (
@@ -177,7 +301,8 @@ export function Discardpile({ playerDevices }: Props) {
               position: "absolute",
               width: "5em",
               height: "8em",
-              backgroundColor: "rgba(0,0,0,0.2)",
+              background:
+                "linear-gradient(-45deg, rgba(0,0,0,0.2), rgba(0,0,0,0.2))",
               top: "0px",
               left: "-4px",
               borderRadius: "10px",
@@ -188,7 +313,8 @@ export function Discardpile({ playerDevices }: Props) {
               position: "absolute",
               width: "5em",
               height: "8em",
-              backgroundColor: "rgba(0,0,0,0.1)",
+              background:
+                "linear-gradient(-45deg, rgba(0,0,0,0.1), rgba(0,0,0,0.1))",
               top: "0px",
               left: "-2px",
               borderRadius: "10px",
@@ -196,7 +322,6 @@ export function Discardpile({ playerDevices }: Props) {
           />
         </>
       )}
-
       {game.discardPile.map((card: Card, index: number) => {
         if (index <= 0) {
           if (pilePosition != null) {
@@ -224,387 +349,6 @@ export function Discardpile({ playerDevices }: Props) {
           }
         }
       })}
-
-      {/* Top card (main card) */}
-      {/*<div onMouseEnter={() => {
-        for(let i = 0; i<game.discardPile.length;i++){
-        const discardDiv= document.createElement("div");
-        discardDiv.style.position ="absolute";
-        discardDiv.style.left =(i*50).toString();
-        discardDiv.style.top ="-300";
-        discardDiv.style.width ="5em";
-        discardDiv.style.height ="8em";
-        discardDiv.style.zIndex ="100";
-        discardDiv.style.transition ="all 2s ease-in-out";
-        const cardColorDiv = document.createElement("div");
-        cardColorDiv.style.width = "5em";
-        cardColorDiv.style.height = "8em";
-        cardColorDiv.style.backgroundColor = game.discardPile[i] ? game.discardPile[i].color : "black";
-        cardColorDiv.style.padding = "8px";
-        cardColorDiv.style.borderRadius = "10px";
-        cardColorDiv.style.display = "flex";
-        cardColorDiv.style.position = "relative";
-        cardColorDiv.style.boxShadow = "2px 2px 5px rgba(0, 0, 0, 0.2)";
-        cardColorDiv.style.border = "2px solid white";
-        discardDiv.appendChild(cardColorDiv);
-         const cardValueDiv= document.createElement("div");
-         cardValueDiv.style.position = "absolute";
-         cardValueDiv.style.top = "50%";
-         cardValueDiv.style.left = "50%";
-         cardValueDiv.style.transform = "translate(-50%, -50%)";
-         cardValueDiv.style.color = "white";
-         cardValueDiv.style.fontSize = "1.8em";
-         cardValueDiv.style.fontWeight = "bold";
-         cardValueDiv.textContent = game.discardPile[i] ? game.discardPile[i].value : "skip";
-         cardColorDiv.appendChild(cardValueDiv);
-         const discardParent= document.getElementById("discardParent")!;
-         discardParent.appendChild(discardDiv);
-        }
-          // const discardHistory = document.getElementsByClassName("discard");
-          // for(let i= 0; discardHistory.length;i++){
-          //   const element = discardHistory[i] as HTMLElement
-          //   element.style.visibility = "visible";
-          // }
-        }}
-        onMouseLeave={() => {
-          // const discardHistory = document.getElementsByClassName("discard");
-          // for(let i= 0; discardHistory.length;i++){
-          //   const element = discardHistory[i] as HTMLElement
-          //   element.style.visibility = "hidden";
-          // }
-         const discardParent= document.getElementById("discardParent")!;
-         while(discardParent.hasChildNodes){
-          discardParent.removeChild(discardParent.childNodes[discardParent.childNodes.length-1]);
-         }}}
-        style={{
-          width: "5em",
-          height: "8em",
-          backgroundColor: lastTopCard ? lastTopCard.color : "black",
-          padding: "8px",
-          borderRadius: "10px",
-          display: "flex",
-          position: "relative",
-          boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)",
-          border: "2px solid white",
-        }}
-      >
-        {lastTopCard ? (
-          <>
-            <div
-              style={{
-                position: "absolute",
-                top: "5px",
-                left: "5px",
-                color: "white",
-                fontSize: isNaN(Number(lastTopCard.value)) ? "0.6em" : "0.9em",
-                fontWeight: "bold",
-              }}
-            >
-              {lastTopCard.value}
-            </div>
-
-            <div
-              style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                color: "white",
-                fontSize: isNaN(Number(lastTopCard.value)) ? "1.2em" : "1.8em",
-                fontWeight: "bold",
-              }}
-            >
-              {lastTopCard.value}
-            </div>
-
-            <div
-              style={{
-                position: "absolute",
-                bottom: "5px",
-                right: "5px",
-                color: "white",
-                fontSize: isNaN(Number(lastTopCard.value)) ? "0.6em" : "0.9em",
-                fontWeight: "bold",
-                transform: "rotate(180deg)",
-              }}
-            >
-              {lastTopCard.value}
-            </div>
-          </>
-        ) : (
-          <div
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              color: "white",
-              fontSize: "0.9em",
-              fontWeight: "bold",
-            }}
-          >
-            no Game
-          </div>
-        )}
-      </div> */}
-
-      {/* {wasCardJustPlayed && game && isSecondCardVisible && (
-        <div
-          style={{
-            position: "absolute",
-            left: secondCardPosition.x,
-            top: secondCardPosition.y,
-            width: "5em",
-            height: "8em",
-            zIndex: 100,
-            transition: "all 2s ease-in-out",
-          }}
-        >
-          <div
-            style={{
-              width: "5em",
-              height: "8em",
-              backgroundColor:
-                game.discardPile[game.discardPile.length - 1].color,
-              padding: "8px",
-              borderRadius: "10px",
-              display: "flex",
-              position: "relative",
-              boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)",
-              border: "2px solid white",
-            }}
-          >
-            <div
-              style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                color: "white",
-                fontSize: "1.8em",
-                fontWeight: "bold",
-              }}
-            >
-              {game.discardPile[game.discardPile.length - 1].value}
-            </div>
-          </div>
-        </div>
-      )} */}
     </div>
   );
 }
-
-// {/* discard history card 1*/}
-// <div className="discard"
-//     style={{
-//       visibility:"hidden",
-//       position: "absolute",
-//       left: -100,
-//       top: -300,
-//       width: "5em",
-//       height: "8em",
-//       zIndex: 100,
-//       transition: "all 2s ease-in-out",
-//     }}
-//   >
-//     <div
-//       style={{
-//         width: "5em",
-//         height: "8em",
-//         backgroundColor:
-//         game.discardPile[game.discardPile.length - 1] ? game.discardPile[game.discardPile.length - 1].color : "black",
-//         padding: "8px",
-//         borderRadius: "10px",
-//         display: "flex",
-//         position: "relative",
-//         boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)",
-//         border: "2px solid white",
-//       }}
-//     >
-//       <div
-//         style={{
-//           position: "absolute",
-//           top: "50%",
-//           left: "50%",
-//           transform: "translate(-50%, -50%)",
-//           color: "white",
-//           fontSize: "1.8em",
-//           fontWeight: "bold",
-//         }}
-//       >
-//         {game.discardPile[game.discardPile.length - 1] ? game.discardPile[game.discardPile.length - 1].value : "skip"}
-//         </div>
-//     </div>
-//   </div>
-
-// {/* discard history card 2*/}
-//   <div className="discard"
-//     style={{
-//       visibility:"hidden",
-//       position: "absolute",
-//       left: 0,
-//       top: -300,
-//       width: "5em",
-//       height: "8em",
-//       zIndex: 100,
-//       transition: "all 2s ease-in-out",
-//     }}
-//   >
-//     <div
-//       style={{
-//         width: "5em",
-//         height: "8em",
-//         backgroundColor:
-//         game.discardPile[game.discardPile.length - 2] ? game.discardPile[game.discardPile.length - 2].color : "black",
-//         padding: "8px",
-//         borderRadius: "10px",
-//         display: "flex",
-//         position: "relative",
-//         boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)",
-//         border: "2px solid white",
-//       }}
-//     >
-//       <div
-//         style={{
-//           position: "absolute",
-//           top: "50%",
-//           left: "50%",
-//           transform: "translate(-50%, -50%)",
-//           color: "white",
-//           fontSize: "1.8em",
-//           fontWeight: "bold",
-//         }}
-//       >
-//         {game.discardPile[game.discardPile.length - 2] ? game.discardPile[game.discardPile.length - 2].value : "skip"}
-//         </div>
-//     </div>
-//   </div>
-
-// {/* discard history card 3*/}
-//   <div className="discard"
-//     style={{
-//       visibility:"hidden",
-//       position: "absolute",
-//       left: 100,
-//       top: -300,
-//       width: "5em",
-//       height: "8em",
-//       zIndex: 100,
-//       transition: "all 2s ease-in-out",
-//     }}
-//   >
-//     <div
-//       style={{
-//         width: "5em",
-//         height: "8em",
-//         backgroundColor:
-//         game.discardPile[game.discardPile.length - 3] ? game.discardPile[game.discardPile.length - 3].color : "black",
-//         padding: "8px",
-//         borderRadius: "10px",
-//         display: "flex",
-//         position: "relative",
-//         boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)",
-//         border: "2px solid white",
-//       }}
-//     >
-//       <div
-//         style={{
-//           position: "absolute",
-//           top: "50%",
-//           left: "50%",
-//           transform: "translate(-50%, -50%)",
-//           color: "white",
-//           fontSize: "1.8em",
-//           fontWeight: "bold",
-//         }}
-//       >
-//         {game.discardPile[game.discardPile.length - 3] ? game.discardPile[game.discardPile.length - 3].value : "skip"}
-//         </div>
-//     </div>
-//   </div>
-
-// {/* discard history card 4*/}
-//   <div className="discard"
-//     style={{
-//       visibility:"hidden",
-//       position: "absolute",
-//       left: 200,
-//       top: -300,
-//       width: "5em",
-//       height: "8em",
-//       zIndex: 100,
-//       transition: "all 2s ease-in-out",
-//     }}
-//   >
-//     <div
-//       style={{
-//         width: "5em",
-//         height: "8em",
-//         backgroundColor:
-//         game.discardPile[game.discardPile.length - 4] ? game.discardPile[game.discardPile.length - 4].color : "black",
-//         padding: "8px",
-//         borderRadius: "10px",
-//         display: "flex",
-//         position: "relative",
-//         boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)",
-//         border: "2px solid white",
-//       }}
-//     >
-//       <div
-//         style={{
-//           position: "absolute",
-//           top: "50%",
-//           left: "50%",
-//           transform: "translate(-50%, -50%)",
-//           color: "white",
-//           fontSize: "1.8em",
-//           fontWeight: "bold",
-//         }}
-//       >
-//         {game.discardPile[game.discardPile.length - 4] ? game.discardPile[game.discardPile.length - 4].value : "skip"}
-//         </div>
-//     </div>
-//   </div>
-
-// {/* discard history card 5*/}
-//   <div className="discard"
-//     style={{
-//       visibility:"hidden",
-//       position: "absolute",
-//       left: 300,
-//       top: -300,
-//       width: "5em",
-//       height: "8em",
-//       zIndex: 100,
-//       transition: "all 2s ease-in-out",
-//     }}
-//   >
-//     <div
-//       style={{
-//         width: "5em",
-//         height: "8em",
-//         backgroundColor:
-//           game.discardPile[game.discardPile.length - 5] ? game.discardPile[game.discardPile.length - 5].color : "black",
-//         padding: "8px",
-//         borderRadius: "10px",
-//         display: "flex",
-//         position: "relative",
-//         boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)",
-//         border: "2px solid white",
-//       }}
-//     >
-//       <div
-//         style={{
-//           position: "absolute",
-//           top: "50%",
-//           left: "50%",
-//           transform: "translate(-50%, -50%)",
-//           color: "white",
-//           fontSize: "1.8em",
-//           fontWeight: "bold",
-//         }}
-//       >
-//         {game.discardPile[game.discardPile.length - 5] ? game.discardPile[game.discardPile.length - 5].value : "skip"}
-//       </div>
-//     </div>
-//   </div>*\}

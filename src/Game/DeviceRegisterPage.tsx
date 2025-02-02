@@ -1,11 +1,11 @@
-import { useState } from "react";
-import { getState } from "playroomkit";
+import { useEffect, useState } from "react";
+import { getState, setState } from "playroomkit";
 import { Gameboard } from "./Gameboard";
 import { PlayerDevice } from "./Device";
 import { DeviceRegisterCard } from "./DeviceRegisterCard";
 import { InteractionBorder } from "./InteractionBorder";
 import { PlayerIcon } from "./PlayerIcon";
-import { Player } from "./game";
+import { Game, Player } from "./game";
 
 export function DeviceRegisterPage() {
   let game = getState("game");
@@ -47,6 +47,17 @@ export function DeviceRegisterPage() {
     // update counter for checking, if all players are registered
     setRegisteredPlayerIndex(registeredPlayerIndex + 1);
   };
+
+  useEffect(() => {
+    if (registeredPlayerIndex >= game.players.length && !game.started) {
+      console.log("start");
+      let gameInstance = new Game([]);
+      gameInstance.fromGameState(game);
+      gameInstance.startGame(true);
+
+      setState("game", gameInstance.toGameState(), true);
+    }
+  }, [registeredPlayerIndex]);
 
   return (
     <div

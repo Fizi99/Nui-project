@@ -331,7 +331,7 @@ export class Game {
     }
 
 
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 4; i++) {
       this.deck.push({color: "purple", value: "shuffle", playedByIndex: null,  drawnByIndex: null});
     }
 

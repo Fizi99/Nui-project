@@ -64,7 +64,7 @@ export function DrawPileCard({ playerDevices }: Props) {
     if (gameState != null) {
       let gameInstance = new Game([""]);
       gameInstance.fromGameState(gameState);
-      gameInstance.drawCards(playerIndex);
+      gameInstance.drawCards(playerIndex, 1);
       setState("game", gameInstance.toGameState(), true);
     }
   };
@@ -79,13 +79,14 @@ export function DrawPileCard({ playerDevices }: Props) {
         style={{
           width: "5em",
           height: "8em",
-          backgroundColor: "#008B8B", // Deep Cyan
-          padding: "8px",
+          background:
+            "linear-gradient(-45deg, #008B8B, #008B8B, rgba(0,0,0,1))",
+          animation: "gradient 15s ease infinite",
           borderRadius: "10px",
           display: "flex",
           position: "relative",
           boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)",
-          border: "2px solid white",
+          border: "3px solid white",
           cursor: "pointer",
           touchAction: "none",
           zIndex: 2,
@@ -93,37 +94,20 @@ export function DrawPileCard({ playerDevices }: Props) {
       >
         <div
           style={{
-            width: "100%",
-            height: "100%",
-            backgroundColor: "lightgray",
-            padding: "8px",
-            borderRadius: "10px",
-            display: "flex",
-            position: "relative",
-            boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)",
-            border: "2px solid white",
-            cursor: "pointer",
-            touchAction: "none",
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
             color: "black",
-            justifyContent: "space-around",
-            flexDirection: "column",
+            fontSize: "1.0em",
+            fontWeight: "bold",
+            textAlign: "center",
+            width: "100%",
+            textShadow:
+              "-1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white",
           }}
         >
-          <div
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              color: "white",
-              fontSize: "1em",
-              fontWeight: "bold",
-              textAlign: "center",
-              width: "100%",
-            }}
-          >
-            DigiFlip
-          </div>
+          DigiFlip
         </div>
       </div>
     </animated.div>

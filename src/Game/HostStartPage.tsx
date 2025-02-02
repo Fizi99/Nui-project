@@ -17,10 +17,18 @@ export function HostStartPage({
     <div style={{ width: "100%", height: "100%" }}>
       {/* check if game is started. if not, show option to start, else show gameboard*/}
       {!gameStarted ? (
-        <ul>
+        <ul
+          style={{
+            listStyle: "none",
+            display: "flex",
+            justifyContent: "center",
+            height: "100%",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+        >
           <li>
-            wait for every player to start their tracking service, then press
-            play! host is: {playerIndex}
+            Tippe, um die Positionen der Spieler zu registrieren: {playerIndex}
           </li>
           <li>
             <button
@@ -30,7 +38,7 @@ export function HostStartPage({
                 setGameStarted(true);
               }}
             >
-              play!
+              Starte die Registrierung!
             </button>
           </li>
         </ul>
@@ -38,7 +46,7 @@ export function HostStartPage({
         // after initializing the game, register playerpositions
         <DeviceRegisterPage></DeviceRegisterPage>
       ) : (
-        "something went wrong! (vllt die reihenfolge der statechanges?)"
+        "something went wrong!"
       )}
     </div>
   );
