@@ -1,8 +1,5 @@
 import { Discardpile } from "./Discardpile";
 import { Drawpile } from "./Drawpile";
-import { getState } from "playroomkit";
-import { Player } from "./game";
-import { InteractionBorder } from "./InteractionBorder";
 import { PlayerIcon } from "./PlayerIcon";
 import { PlayerDevice } from "./Device";
 
@@ -11,7 +8,7 @@ interface Props {
 }
 
 export function Gameboard({ playerDevices }: Props) {
-  const gameState = getState("game");
+  // const gameState = getState("game");
 
   return (
     /*container for gameboard */
