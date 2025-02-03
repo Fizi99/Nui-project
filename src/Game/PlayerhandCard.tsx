@@ -21,7 +21,7 @@ export function PlayerhandCard({ handIndex, playerIndex, cardDrawn }: Props) {
       // if player lets card go, check where it is positioned
       if (!down) {
         // if card is at left right top or bottom screenborder, register the playerposition
-        if (y < (innerHeight / 100) * 20) {
+        if (y < (innerHeight / 100) * 30) {
           // Play the card
           const gameState = getState("game");
           if (gameState != null) {
