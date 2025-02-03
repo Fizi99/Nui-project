@@ -2,6 +2,8 @@ import { Discardpile } from "./Discardpile";
 import { Drawpile } from "./Drawpile";
 import { PlayerIcon } from "./PlayerIcon";
 import { PlayerDevice } from "./Device";
+import { Game, Player } from "./game";
+import { getState, setState } from "playroomkit";
 
 interface Props {
   playerDevices: PlayerDevice[];
@@ -78,6 +80,24 @@ export function Gameboard({ playerDevices }: Props) {
         >
           <Discardpile playerDevices={playerDevices} />
           <Drawpile playerDevices={playerDevices} />
+        </div>
+        <div style={{ position: "relative", left: "5em" }}>
+          <button
+            onClick={() => {
+              let nameList: string[] = [];
+              getState("game").players.forEach(
+                (element: Player, index: number) => {
+                  nameList[index] = element.name;
+                }
+              );
+              let gameInstance = new Game(nameList);
+              gameInstance.startGame(true);
+
+              setState("game", gameInstance.toGameState(), true);
+            }}
+          >
+            STARTE NEUES SPIEL
+          </button>
         </div>
 
         {/* Removed players names row */}

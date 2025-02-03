@@ -28,7 +28,7 @@ export function InteractionBorder({
   return (
     <div
       style={{
-        background: `linear-gradient(to ${direction}, #fff0 0%, #000f 100%)`,
+        background: `linear-gradient(to ${direction}, #98ECF500 0%, #98ECF5 100%)`,
         width: width,
         height: height,
         position: "absolute",
