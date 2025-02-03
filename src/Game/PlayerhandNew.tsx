@@ -76,7 +76,7 @@ export function PlayerhandNew({ playerIndex }: Props) {
       <div
         style={{
           display: "flex",
-          bottom: "3em", // NOTFALLS FÜR TOP AUSTAUSCHEN
+          top: innerHeight / 2 + "px", // NOTFALLS FÜR TOP AUSTAUSCHEN
           position: "relative",
           justifyContent: "center",
           gap: "1em",
